@@ -29,6 +29,6 @@ class Block:
 		self.varMap={}
 		self.arrayMap={}
 		self.breakLabelname=""
-		sekf.canBreak=False
+		self.canBreak=False
 
 

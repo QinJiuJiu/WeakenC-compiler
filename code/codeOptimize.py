@@ -10,8 +10,8 @@ class Optimize:
 		self.codelist = codelist
 		self.tempMessage = {}
 		self.num=-1
-		establishMap(self.codelist)
-		dropTrumpTemp(self.codelist)
+		self.establishMap(self.codelist)
+		self.dropTrumpTemp(self.codelist)
 	
 	
 	def getCodeList(self):
