@@ -1,63 +1,63 @@
 def praser_additive_expression(self,additive_exp):
-	if (additive_exp->left->name == "multiplicative_expression"):
-		mult_exp = additive_exp->left
-		return praser_multiplicative_expression(mult_exp)
+	if (additive_exp.left.name == "multiplicative_expression"):
+		mult_exp =additive_exp.left
+		return self.praser_multiplicative_expression(mult_exp)
 	
-	elif (additive_exp->left->right->name == "+" || additive_exp->left->right->name == "-") :
-		node1 = praser_additive_expression(additive_exp->left)
-		node2 = praser_multiplicative_expression(additive_exp->left->right->right)
+	elif (additive_exp.left.right.name == "+" || additive_exp.left.right.name == "-") :
+		node1 = self.praser_additive_expression(additive_exp.left)
+		node2 = self.praser_multiplicative_expression(additive_exp.left.right.right)
 
 		if (node1.type != node2.type) :
-			error(additive_exp->left->right->line, "Different type for two variables.")
+			self.error(additive_exp.left.right.line, "Different type for two variables.")
 		
 
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
-		newnode = createTempVar(tempname, node1.type)
+		newnode = self.createTempVar(tempname, node1.type)
 		self.blockStack[-1].varMap[tempname]=newnode
 
-		self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, additive_exp->left->right->name, node1, node2))
+		self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, additive_exp.left.right.name, node1, node2))
 		return newnode
 	
 
  
 def praser_multiplicative_expression(self,mult_exp):
-	if (mult_exp->left->name == "unary_expression") :
-		unary_exp = mult_exp->left
-		return praser_unary_expression(unary_exp)
+	if (mult_exp.left.name == "unary_expression") :
+		unary_exp = mult_exp.left
+		return self.praser_unary_expression(unary_exp)
 	
-	elif (mult_exp->left->right->name == "*" || mult_exp->left->right->name == "/" || mult_exp->left->right->name == "%"):
-		node1 = praser_multiplicative_expression(mult_exp->left)
-		node2 = praser_unary_expression(mult_exp->left->right->right)
+	elif (mult_exp.left.right.name == "*" || mult_exp.left.right.name == "/" || mult_exp.left.right.name == "%"):
+		node1 = self.praser_multiplicative_expression(mult_exp.left)
+		node2 = self.praser_unary_expression(mult_exp.left.right.right)
 
 		if (node1.type != node2.type):
-			error(mult_exp->left->right->line, "Different type for two variables.")
+			self.error(mult_exp.left.right.line, "Different type for two variables.")
 		
 
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
-		newNode = createTempVar(tempname, node1.type)
+		newNode = self.createTempVar(tempname, node1.type)
 		self.blockStack[-1].varMap[tempname]=newNode
 
-		self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, mult_exp->left->right->name,node1,node2))
+		self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, mult_exp.left.right.name,node1,node2))
 		return newNode
 
 	
  
 
 def praser_unary_expression(self,unary_exp) :
-	if (unary_exp->left->name == "postfix_expression") :
-		post_exp = unary_exp->left
-		return praser_postfix_expression(post_exp)
+	if (unary_exp.left.name == "postfix_expression") :
+		post_exp = unary_exp.left
+		return self.praser_postfix_expression(post_exp)
 	
-	elif (unary_exp->left->name == "INC_OP") :
-		rnode = praser_unary_expression(unary_exp->left->right)
+	elif (unary_exp.left.name == "INC_OP") :
+		rnode = self.praser_unary_expression(unary_exp.left.right)
 		if (rnode.type != "int"):
-			error(unary_exp->left->right->line, "++ operation can only use for int type.")
+			self.error(unary_exp.left.right.line, "++ operation can only use for int type.")
 
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
-		newNode = createTempVar(tempname, "int")
+		newNode = self.createTempVar(tempname, "int")
 		self.blockStack[-1].varMap[tempname]=newNode
 
 		self.innerCode.addCode(tempname + " := #1")
@@ -73,15 +73,15 @@ def praser_unary_expression(self,unary_exp) :
 		return rnode
 
 	
-	elif (unary_exp->left->name == "DEC_OP") :
+	elif (unary_exp.left.name == "DEC_OP") :
 
-		rnode = praser_unary_expression(unary_exp->left->right)
+		rnode = self.praser_unary_expression(unary_exp.left.right)
 		if (rnode.type != "int"):
-			error(unary_exp->left->right->line, "-- operation can only use for int type.")
+			self.error(unary_exp.left.right.line, "-- operation can only use for int type.")
 
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum
-		newNode = createTempVar(tempname, "int")
+		newNode = self.createTempVar(tempname, "int")
 		self.blockStack[-1].varMap.[tempname]=newNode
 
 		self.innerCode.addCode(tempname + " := #1")
@@ -96,29 +96,29 @@ def praser_unary_expression(self,unary_exp) :
 
 		return rnode
 	
-	elif (unary_exp->left->name == "unary_operator") :
-		op = unary_exp->left->left->name
-		rnode = praser_unary_expression(unary_exp->left->right)
+	elif (unary_exp.left.name == "unary_operator") :
+		op = unary_exp.left.left.name
+		rnode = self.praser_unary_expression(unary_exp.left.right)
 		if (op == "+") :
 
 			if (rnode.type != "int" && rnode.type != "double"):
-				error(unary_exp->left->left->line, "operator '+' can only used to int or double")
+				self.error(unary_exp.left.left.line, "operator '+' can only used to int or double")
 			return rnode
 		
 		elif (op == "-") :
 
 			if (rnode.type != "int" && rnode.type != "double"):
-				error(unary_exp->left->left->line, "operator '-' can only used to int or double")
+				self.error(unary_exp.left.left.line, "operator '-' can only used to int or double")
 
 			tempzeroname = "temp" + str(self.innerCode.tempNum)
 			self.innerCode.tempNum=self.innerCode.tempNum+1
-			newzeronode = createTempVar(tempzeroname, rnode.type)
+			newzeronode = self.createTempVar(tempzeroname, rnode.type)
 			self.blockStack[-1].varMap[tempzeroname]=newzeronode
 			self.innerCode.addCode(tempzeroname + " := #0")
 
 			tempname = "temp" + str(self.innerCode.tempNum)
 			self.innerCode.tempNum=self.innerCode.tempNum+1
-			newnode = createTempVar(tempname, rnode.type)
+			newnode = self.createTempVar(tempname, rnode.type)
 			self.blockStack[-1].varMap[tempname]=newnode
 
 
@@ -142,19 +142,19 @@ def praser_unary_expression(self,unary_exp) :
 
 def praser_postfix_expression(self,post_exp) :
 	
-	if (post_exp->left->name == "primary_expression") :
-		primary_exp = post_exp->left
-		return praser_primary_expression(primary_exp)
+	if (post_exp.left.name == "primary_expression") :
+		primary_exp = post_exp.left
+		return self.praser_primary_expression(primary_exp)
 	
-	elif (post_exp->left->right->name == "[") :
+	elif (post_exp.left.right.name == "[") :
 		
-		arrayName = post_exp->left->left->left->content
-		expression = post_exp->left->right->right
-		enode = praser_expression(expression)
-		anode = getArrayNode(arrayName)
+		arrayName = post_exp.left.left.left.content
+		expression = post_exp.left.right.right
+		enode = self.praser_expression(expression)
+		anode = self.getArrayNode(arrayName)
 
 		if (anode.num < 0):
-			error(post_exp->left->right->line, "Undifined array " + arrayName)
+			self.error(post_exp.left.right.line, "Undifined array " + arrayName)
 
 		tempVar=varNode()
 		tempName = "temp" + str(self.innerCode.tempNum)
@@ -199,25 +199,25 @@ def praser_postfix_expression(self,post_exp) :
 				self.innerCode.addCode(tempName2 + " := " + self.innerCode.getNodeName(enode) + " * " + tempName3)
 			
 
-			self.innerCode.addCode(tempName + " := &" + self.innerCode.getarrayNodeName(anode) + " + " + self.innerCode.getNodeName(tempVar2))
+			self.innerCode.addCode(tempName + " := &" + self.innerCode.self.getArrayNodeName(anode) + " + " + self.innerCode.getNodeName(tempVar2))
 			return tempVar
 		
 
-		self.innerCode.addCode(tempName + " := &" + self.innerCode.getarrayNodeName(anode) + " + " + self.innerCode.getNodeName(enode))
+		self.innerCode.addCode(tempName + " := &" + self.innerCode.self.getArrayNodeName(anode) + " + " + self.innerCode.getNodeName(enode))
 		return tempVar
 	
-	elif (post_exp->left->right->name == "(") :
+	elif (post_exp.left.right.name == "(") :
 		#函数调用
-		funcName = post_exp->left->left->left->content
+		funcName = post_exp.left.left.left.content
 		newNode=varNode()
 		
 		if (self.funcPool.find(funcName) == self.funcPool.end()) :
-			error(post_exp->left->left->left->line, "Undefined function " + funcName)
+			self.error(post_exp.left.left.left.line, "Undefined function " + funcName)
 		
 
-		if (post_exp->left->right->right->name == "argument_expression_list") :
-			argument_exp_list = post_exp->left->right->right
-			praser_argument_expression_list(argument_exp_list, funcName)
+		if (post_exp.left.right.right.name == "argument_expression_list") :
+			argument_exp_list = post_exp.left.right.right
+			self.praser_argument_expression_list(argument_exp_list, funcName)
 			
 
 		
@@ -231,7 +231,7 @@ def praser_postfix_expression(self,post_exp) :
 			tempname = "temp" + str(self.innerCode.tempNum)
 			self.innerCode.tempNum=self.innerCode.tempNum+1
 
-			newNode = createTempVar(tempname, self.funcPool[funcName].rtype)
+			newNode = self.createTempVar(tempname, self.funcPool[funcName].rtype)
 			self.innerCode.addCode(tempname + " := CALL " + funcName)
 
 		
@@ -239,20 +239,20 @@ def praser_postfix_expression(self,post_exp) :
 		return newNode
 		
 	
-	elif (post_exp->left->right->name == "INC_OP") :
-		rnode = praser_postfix_expression(post_exp->left)
+	elif (post_exp.left.right.name == "INC_OP") :
+		rnode = self.praser_postfix_expression(post_exp.left)
 
 		if (rnode.type != "int"):
-			error(post_exp->left->right->line, "++ operation can only use for int type.")
+			self.error(post_exp.left.right.line, "++ operation can only use for int type.")
 
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
-		newnode = createTempVar(tempname, "int")
+		newnode = self.createTempVar(tempname, "int")
 		self.blockStack[-1].varMap.[tempname]=newnode
 
 		tempnameone = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
-		newNode = createTempVar(tempnameone, "int")
+		newNode = self.createTempVar(tempnameone, "int")
 		self.blockStack[-1].varMap[tempnameone]=newNode
 
 		self.innerCode.addCode(tempnameone + " := #1")
@@ -269,21 +269,21 @@ def praser_postfix_expression(self,post_exp) :
 
 		return newnode
 	
-	elif (post_exp->left->right->name == "DEC_OP"):
+	elif (post_exp.left.right.name == "DEC_OP"):
 
-		rnode = praser_postfix_expression(post_exp->left)
+		rnode = self.praser_postfix_expression(post_exp.left)
 
 		if (rnode.type != "int"):
-			error(post_exp->left->right->line, "-- operation can only use for int type.")
+			self.error(post_exp.left.right.line, "-- operation can only use for int type.")
 
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
-		newnode = createTempVar(tempname, "int")
+		newnode = self.createTempVar(tempname, "int")
 		self.blockStack[-1].varMap[tempname]=newnode
 
 		tempnameone = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
-		newNode = createTempVar(tempnameone, "int")
+		newNode = self.createTempVar(tempnameone, "int")
 		self.blockStack[-1].varMap.[tempnameone]=newNode 
 
 		self.innerCode.addCode(tempnameone + " := #1")
@@ -304,77 +304,77 @@ def praser_postfix_expression(self,post_exp) :
  
 
 def praser_argument_expression_list(self,node, funcName) :
-	argu_exp_list = node->left
+	argu_exp_list = node.left
 	func = self.funcPool[funcName]
 	i = 0
-	while (argu_exp_list->name == "argument_expression_list") :
-		rnode = praser_assignment_expression(argu_exp_list->right->right)
+	while (argu_exp_list.name == "argument_expression_list") :
+		rnode = self.praser_assignment_expression(argu_exp_list.right.right)
 
 		self.innerCode.addCode(self.innerCode.createCodeforArgument(rnode))
 
-		argu_exp_list = argu_exp_list->left
+		argu_exp_list = argu_exp_list.left
 		i=i+1
 		if (func.paralist[len(func.paralist) - i].type != rnode.type) :
-			error(argu_exp_list->line, "Wrong type arguments to function " + funcName)
+			self.error(argu_exp_list.line, "Wrong type arguments to function " + funcName)
 		
 	
-	rnode = praser_assignment_expression(argu_exp_list)
+	rnode = self.praser_assignment_expression(argu_exp_list)
 	self.innerCode.addCode(self.innerCode.createCodeforArgument(rnode))
 	i=i+1
 	if (func.paralist[len(func.paralist) - i].type != rnode.type) :
-		error(argu_exp_list->line, "Wrong type arguments to function " + funcName)
+		self.error(argu_exp_list.line, "Wrong type arguments to function " + funcName)
 	
 	if (i != len(func.paralist)) :
-		error(argu_exp_list->line, "The number of arguments doesn't equal to the function parameters number.")
+		self.error(argu_exp_list.line, "The number of arguments doesn't equal to the function parameters number.")
 	
 
 
 def praser_primary_expression(self,primary_exp) :
-	if (primary_exp->left->name == "IDENTIFIER") :
-		content = primary_exp->left->content
-		rnode = lookupNode(content)
+	if (primary_exp.left.name == "IDENTIFIER") :
+		content = primary_exp.left.content
+		rnode = self.lookupNode(content)
 		if (rnode.num < 0) :
-			error(primary_exp->left->line, "Undefined variable " + content)
+			self.error(primary_exp.left.line, "Undefined variable " + content)
 		
 		return rnode
 	
-	elif (primary_exp->left->name == "TRUE" || primary_exp->left->name == "FALSE") :
-		content = primary_exp->left->content
+	elif (primary_exp.left.name == "TRUE" || primary_exp.left.name == "FALSE") :
+		content = primary_exp.left.content
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
-		newNode = createTempVar(tempname, "bool")
+		newNode = self.createTempVar(tempname, "bool")
 		self.blockStack[-1].varMap.insert[tempname]=newNode
-		if(primary_exp->left->name == "TRUE") :
+		if(primary_exp.left.name == "TRUE") :
 			self.innerCode.addCode(tempname + " := #1")
 		else :
 			self.innerCode.addCode(tempname + " := #0")
 		
 		return newNode
 	
-	elif (primary_exp->left->name == "CONSTANT_INT") :
-		content = primary_exp->left->content
+	elif (primary_exp.left.name == "CONSTANT_INT") :
+		content = primary_exp.left.content
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
 		
-		newNode = createTempVar(tempname, "int")
+		newNode = self.createTempVar(tempname, "int")
 		self.blockStack[-1].varMap.[tempname]=newNode
 		self.innerCode.addCode(tempname + " := #"  + content)
 		return newNode
 	
-	elif (primary_exp->left->name == "CONSTANT_DOUBLE") :
-		content = primary_exp->left->content
+	elif (primary_exp.left.name == "CONSTANT_DOUBLE") :
+		content = primary_exp.left.content
 		tempname = "temp" + str(self.innerCode.tempNum)
 		self.innerCode.tempNum=self.innerCode.tempNum+1
 
-		newNode = createTempVar(tempname, "double")
+		newNode = self.createTempVar(tempname, "double")
 
 		self.blockStack[-1].varMap[tempname]=newNode
 		self.innerCode.addCode(tempname + " := F" + content)
 		return newNode
 	
-	elif (primary_exp->left->name == "(") :
-		expression = primary_exp->left->right
-		return praser_expression(expression)
+	elif (primary_exp.left.name == "(") :
+		expression = primary_exp.left.right
+		return self.praser_expression(expression)
 	
 
 
@@ -447,12 +447,12 @@ def getBreakBlockNumber(self) :
 	return -1
 
 
-def error(self,line, error) :
+def error(self,line, self.error) :
 
-	print_code()
+	self.print_code()
 
-	print( "Error! line " ,line)
-	print(error)
+	print( "self.error! line " ,line)
+	print(self.error)
 	exit(1)
 
 
