@@ -1,0 +1,346 @@
+def praser_init_declarator_list(self, vartype, node):
+    if node.left.name == 'init_declarator_list':
+        praser_init_declarator_list(vartype, node.left)
+    elif node.left.name == 'init_declarator':
+        praser_init_declarator(vartype, node.left)
+
+    if node.right.name == ',':
+        praser_init_declarator(vartype, node.right.right)
+
+def praser_init_declarator(self, vartype, node):
+    declarator = node.left
+    if declarator.right == 0:
+        if declarator.left.name == 'IDENTIFIER':
+            id = declarator.left
+            var = id.content
+            if lookupCurruntVar(var) == 0:
+                newvar = varNode()
+                newvar.name = var
+                newvar.type = vartype
+                newvar.num = self.innerCode.varNum
+                self.innerCode.varNum += 1
+                self.blockStack[len(self.blockStack) - 1].varmap[var] = newvar  # not sure
+            else:
+                error(declarator.left.line, 'Variable multiple declaration')
+        else:
+            if declarator.left.right.name == '(':
+                funcName = declarator.left.left.content
+                funcType = vartype
+                if self.blockStack.size() > 1:
+                    error(declarator.left.right.line, 'Function declaration must at global environment.')
+                parament_list = declarator.left.right.right
+                newFunc = funcNode()
+                newFunc.isdefined = False
+                newFunc.name = funcName
+                newFunc.type = funcType
+                self.funcPool.append({funcName, newFunc})
+
+                # 分析函数参数列表
+                praser_parameter_list(parament_list, funcName, False)
+
+            elif declarator.left.right.name == '[':
+                arrayName = declarator.left.left.content
+                arrayType = vartype
+                assign_exp = declarator.left.right.right
+                rnode = praser_assignment_expression(assign_exp)
+                if rnode.type != 'int':
+                    error(declarator.left.right.line, "Array size must be int.")
+
+                tnode = varNode()
+                if arrayType == 'int':
+                    #创建一个新的临时变量来储存数组的大小
+                    tempname = "temp" + str(self.innerCode.tempNum)
+                    self.innerCode.tempNum += 1
+                    tnode = createTempVar(tempname, 'int')
+                    self.blockStack[len(self.blockStack) - 1].varmap[tempname] = tnode
+
+                    tempVar3 = varNode()
+                    tempName3 = 'temp' + str(self.innerCode.tempNum)
+                    tempVar3.name = tempName3
+                    tempVar3.type = 'int'
+                    self.blockStack[len(self.blockStack) - 1].varmap[tempName3] = tempVar3  # not sure
+                    self.innerCode.addCode(tempName3 + ' := #4')
+                    self.innerCode.addCode(tnode.name + ' := ' + tempName3 + ' * ' + rnode.name)
+
+                elif arrayType == 'double':
+                    # 创建一个新的临时变量来储存数组的大小
+                    tempname = "temp" + str(self.innerCode.tempNum)
+                    self.innerCode.tempNum += 1
+                    tnode = createTempVar(tempname, 'int')
+                    self.blockStack[len(self.blockStack) - 1].varmap[tempname] = tnode
+
+                    tempVar3 = varNode()
+                    tempName3 = 'temp' + str(self.innerCode.tempNum)
+                    tempVar3.name = tempName3
+                    tempVar3.type = 'int'
+                    self.blockStack[len(self.blockStack) - 1].varmap[tempName3] = tempVar3  # not sure
+                    self.innerCode.addCode(tempName3 + ' := #8')
+                    self.innerCode.addCode(tnode.name + ' := ' + tempName3 + ' * ' + rnode.name)
+
+                elif arrayType == 'bool':
+                    tnode = rnode
+
+                anode = arrayNode() # ?
+                anode.name = arrayName
+                anode.type = arrayType
+                anode.num = self.innerCode.arrayNum
+                self.innerCode.arrayNum += 1
+                self.innerCode.addCode('DEC' + self.innerCode.getarrayNodeName(anode) + ' ' + tnode.name)
+
+                self.blockStack[len(self.blockStack) - 1].varmap[arrayName] = anode
+
+    elif declarator.right.name == '=':
+        newvar = varNode()
+        if declarator.left.name == 'IDEMTIFIER':
+            id = declarator.left
+            var = id.content
+            if lookupCurruntVar(var) == 0:
+                newvar.name = var
+                newvar.type = vartype
+                newvar.num = self.innerCode.varNum
+                self.innerCode.varNum += 1
+                self.blockStack[len(self.blockStack) - 1].varmap[var] = newvar # not sure
+            else:
+                error(declarator.left.line, 'Variable multiple declaration')
+
+            initializer = declarator.right.right
+            if initializer.isnull == True:
+                error(declarator.line, 'Lack the initializer for variable')
+            else:
+                if initializer.left.name == 'assignment_expression':
+                    rnode = praser_assignment_expression(initializer.left)
+                    self.innerCode.addCode(self.innerCode.createCodeforAssign(newvar, rnode))
+                    rtype = rnode.type
+                    if rtype != vartype:
+                        error(initializer.left.line, 'Wrong type to variable ' + declarator.left.content + ": " + rtype + ' to ' + vartype)
+    else:
+        error(declarator.right.line, "Wrong value to variable")
+
+def praser_assignment_expression(self, assign_exp):
+    if assign_exp.left.name == 'logical_or_expression':
+        logical_or_exp = assign_exp.left
+        return praser_logical_or_expression(logical_or_exp)
+    elif assign_exp.left.name == "unary_expression":
+        unary_exp = assign_exp.left
+        op = assign_exp.left.right.left.name
+        next_assign_exp = assign_exp.left.right.right
+        node1 = praser_unary_expression(unary_exp)
+        node2 = praser_assignment_expression(next_assign_exp)
+        if op == '=':
+            node3 = node2
+        else:
+            tempname = 'temp' + str(self.innerCode.tempNum)
+            self.innerCode.tempNum += 1
+            node3 = createTempVar(tempname, node1.type)
+
+            self.blockStack[len(self.blockStack) - 1].varmap[tempname] = node3
+
+            if op == 'MUL_ASSIGN':
+                if node1.type != node2.type:
+                    error(assign_exp.left.line, "Different type for two variables.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '*', node1, node2))
+            elif op == 'DIV_ASSIGN':
+                if node1.type != node2.type:
+                    error(assign_exp.left.line, "Different type for two variables.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '/', node1, node2))
+            elif op == 'MOD_ASSIGN':
+                if node1.type != 'int' or node2.type != 'int':
+                    error(assign_exp.left.line, "The two variables must be int.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '%', node1, node2))
+            elif op == 'ADD_ASSIGN':
+                if node1.type != node2.type:
+                    error(assign_exp.left.line, "Different type for two variables.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '+', node1, node2))
+            elif op == 'SUB_ASSIGN':
+                if node1.type != node2.type:
+                    error(assign_exp.left.line, "Different type for two variables.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '-', node1, node2))
+            elif op == 'LEFT_ASSIGN':
+                if node1.type != 'int' or node2.type != 'int':
+                    error(assign_exp.left.line, "The two variables must be int.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '<<', node1, node2))
+            elif op == 'RIGHT_ASSIGN':
+                if node1.type != 'int' or node2.type != 'int':
+                    error(assign_exp.left.line, "The two variables must be int.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '>>', node1, node2))
+            elif op == 'AND_ASSIGN':
+                if node1.type != 'int' or node2.type != 'int':
+                    error(assign_exp.left.line, "The two variables must be int.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '&', node1, node2))
+            elif op == 'XOR_ASSIGN':
+                if node1.type != 'int' or node2.type != 'int':
+                    error(assign_exp.left.line, "The two variables must be int.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '^', node1, node2))
+            elif op == 'OR_ASSIGN':
+                if node1.type != 'int' or node2.type != 'int':
+                    error(assign_exp.left.line, "The two variables must be int.")
+                self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '|', node1, node2))
+        self.innerCode.addCode(self.innerCode.createCodeforVar(node1, node3))
+        return node1
+
+def praser_logical_or_expression(self, logical_or_exp):
+    if logical_or_exp.left.name == 'logical_and_expression':
+        logical_and_exp = logical_or_exp.left
+        return praser_logical_and_expression(logical_and_exp)
+    elif logical_or_exp.left.name == 'logical_or_expression':
+        node1 = praser_logical_or_expression(logical_or_exp.left)
+        node2 = praser_logical_and_expression(logical_or_exp.left.right.right)
+
+        if node1.type != 'bool' or node2 != 'bool':
+            error(logical_or_exp.left.right.line, 'Logical Or operation should only used to bool.')
+
+        tempname = 'temp' + str(self.innerCode.tempNum)
+        self.innerCode.tempNum += 1
+        newnode = createTempVar(tempname, node1.type)
+        self.blockStack[len(self.blockStack) - 1].varmap[tempname] = newnode
+        self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '||', node1, node2))
+        newnode.boolString = self.innerCode.getNodeName(node1) + ' || ' + self.innerCode.getNodeName(node2)
+        return newnode
+
+def praser_logical_and_expression(self, logical_and_exp):
+    if logical_and_exp.left.name == 'inclusive_or_expression':
+        inclusive_or_exp = logical_and_exp.left
+        return praser_inclusive_or_expression(inclusive_or_exp)
+    elif logical_and_exp.left.name == 'logical_amd_expression':
+        node1 = praser_logical_and_expression(logical_and_exp.left)
+        node2 = praser_inclusive_or_expression(logical_and_exp.left.right.right)
+
+        if node1.type != 'bool' or node2 != 'bool':
+            error(logical_and_exp.left.right.line, 'Logical And operation should only used to bool.')
+
+        tempname = 'temp' + str(self.innerCode.tempNum)
+        self.innerCode.tempNum += 1
+        newnode = createTempVar(tempname, node1.type)
+        self.blockStack[len(self.blockStack) - 1].varmap[tempname] = newnode
+        self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '&&', node1, node2))
+        newnode.boolString = self.innerCode.getNodeName(node1) + ' && ' + self.innerCode.getNodeName(node2)
+        return newnode
+
+def praser_inclusive_or_expression(self, inclusive_or_exp):
+    if inclusive_or_exp.left.name == 'exclusive_or_expression':
+        exclusive_or_exp = inclusive_or_exp.left
+        return praser_exclusive_or_expression(exclusive_or_exp)
+    elif inclusive_or_exp.left.name == 'inclusive_or_expression':
+        node1 = praser_inclusive_or_expression(inclusive_or_exp.left)
+        node2 = praser_exclusive_or_expression(inclusive_or_exp.left.right.right)
+
+        if node1.type != 'int' or node2 != 'int':
+            error(inclusive_or_exp.left.right.line, 'Inclusive Or operation should only used to bool.')
+
+        tempname = 'temp' + str(self.innerCode.tempNum)
+        self.innerCode.tempNum += 1
+        newnode = createTempVar(tempname, node1.type)
+        self.blockStack[len(self.blockStack) - 1].varmap[tempname] = newnode
+        self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '|', node1, node2))
+        return newnode
+
+def praser_exclusive_or_expression(self, exclusive_or_exp):
+    if exclusive_or_exp.left.name == 'and_expression':
+        and_exp = exclusive_or_exp.left
+        return praser_and_expression(and_exp)
+    elif exclusive_or_exp.left.name == 'exclusive_or_expression':
+        node1 = praser_exclusive_or_expression(exclusive_or_exp.left)
+        node2 = praser_and_expression(exclusive_or_exp.left.right.right)
+
+        if node1.type != 'int' or node2 != 'int':
+            error(exclusive_or_exp.left.right.line, 'Exclusive Or operation should only used to bool.')
+
+        tempname = 'temp' + str(self.innerCode.tempNum)
+        self.innerCode.tempNum += 1
+        newnode = createTempVar(tempname, node1.type)
+        self.blockStack[len(self.blockStack) - 1].varmap[tempname] = newnode
+        self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '^', node1, node2))
+        return newnode
+
+def praser_and_expression(self, and_exp):
+    if and_exp.left.name == 'equality_expression':
+        equality_exp = and_exp.left
+        return praser_equality_expression(equality_exp)
+    elif and_exp.left.name == 'and_expression':
+        node1 = praser_and_expression(and_exp.left)
+        node2 = praser_equality_expression(and_exp.left.right.right)
+
+        if node1.type != 'int' or node2 != 'int':
+            error(and_exp.left.right.line, 'And operation should only used to bool.')
+
+        tempname = 'temp' + str(self.innerCode.tempNum)
+        self.innerCode.tempNum += 1
+        newnode = createTempVar(tempname, node1.type)
+        self.blockStack[len(self.blockStack) - 1].varmap[tempname] = newnode
+        self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, '&', node1, node2))
+        return newnode
+
+def praser_equality_expression(self, equality_exp):
+    if equality_exp.left.name == 'equality_expression':
+        relational_exp = equality_exp.left
+        return praser_relational_expression(relational_exp)
+    elif equality_exp.left.right.name == 'EQ_OP' or equality_exp.left.right.name == 'NE_OP':
+        if equality_exp.left.right.name == 'EQ_OP':
+            op = '=='
+        else:
+            op = '!='
+
+        node1 = praser_equality_expression(equality_exp.left)
+        node2 = praser_relational_expression(equality_exp.left.right.right)
+
+        if node1.type != node2.type:
+            error(equality_exp.left.right.line, 'Different type for two variables.')
+
+        tempname = 'temp' + str(self.innerCode.tempNum)
+        self.innerCode.tempNum += 1
+        newnode = createTempVar(tempname, 'bool')
+        self.blockStack[len(self.blockStack) - 1].varmap[tempname] = newnode
+        self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, op, node1, node2))
+
+        newnode.boolString = self.innerCode.getNodeName(node1) + " " + op + " " + self.innerCode.getNodeName(node2)
+        return newnode
+
+def praser_relational_expression(self, relational_exp):
+    if relational_exp.left.name == 'equality_expression':
+        shift_exp = relational_exp.left
+        return praser_shift_expression(relational_exp)
+    else:
+        op = relational_exp.left.right.name
+        if op == 'LE_OP':
+            op = '<='
+        elif op == 'GE_OP':
+            op = '>='
+
+        if op == '>' or op == '<' or op == '>=' or op == '<=':
+            node1 = praser_relational_expression(relational_exp.left)
+            node2 = praser_shift_expression(relational_exp.left.right.right)
+
+            if node1.type != node2.type:
+                error(relational_exp.left.right.line, 'Different type for two variables.')
+
+            tempname = 'temp' + str(self.innerCode.tempNum)
+            self.innerCode.tempNum += 1
+            newnode = createTempVar(tempname, 'bool')
+            self.blockStack[len(self.blockStack) - 1].varmap[tempname] = newnode
+            self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, op, node1, node2))
+
+            newnode.boolString = self.innerCode.getNodeName(node1) + " " + op + " " + self.innerCode.getNodeName(node2)
+            return newnode
+
+def praser_shift_expression(self, shift_exp):
+    if shift_exp.left.name == 'additive_expression':
+        additive_exp = shift_exp.left
+        return praser_additive_expression(additive_exp)
+    elif shift_exp.left.right.name == 'LEFT_OP' or shift_exp.left.right.name == 'RIGHT_OP':
+        if shift_exp.left.right.name == 'LEFT_OP':
+            op = '<<'
+        else:
+            op = '>>'
+
+        node1 = praser_shift_expression(shift_exp.left)
+        node2 = praser_additive_expression(shift_exp.left.right.right)
+
+        if node1.type != 'int' or node2.type != 'int':
+            error(shift_exp.left.right.line, 'Shift operation should only used to int.')
+
+        tempname = 'temp' + str(self.innerCode.tempNum)
+        self.innerCode.tempNum += 1
+        newnode = createTempVar(tempname, node1.type)
+        self.blockStack[len(self.blockStack) - 1].varmap[tempname] = newnode
+        self.innerCode.addCode(self.innerCode.createCodeforVar(tempname, op, node1, node2))
+        return newnode
