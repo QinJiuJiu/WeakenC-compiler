@@ -62,7 +62,7 @@ def praser_unary_expression(self,unary_exp) :
 
 		self.innerCode.addCode(tempname + " := #1")
 
-		//变量储存的是地址
+		
 		if (rnode.useAddress) :
 			self.innerCode.addCode("*" + rnode.name + " := *" + rnode.name + " + " + tempname)
 		
@@ -86,7 +86,7 @@ def praser_unary_expression(self,unary_exp) :
 
 		self.innerCode.addCode(tempname + " := #1")
 
-		//变量储存的是地址
+		
 		if (rnode.useAddress) :
 			self.innerCode.addCode("*" + rnode.name + " := *" + rnode.name + " - " + tempname)
 		
@@ -257,7 +257,7 @@ def praser_postfix_expression(self,post_exp) :
 
 		self.innerCode.addCode(tempnameone + " := #1")
 
-		//变量储存的是地址
+		
 		if (rnode.useAddress) :
 			self.innerCode.addCode(tempname + " := *" + rnode.name)
 			self.innerCode.addCode("*" + rnode.name + " := *" + rnode.name + " + " + tempnameone)
@@ -288,7 +288,7 @@ def praser_postfix_expression(self,post_exp) :
 
 		self.innerCode.addCode(tempnameone + " := #1")
 
-		//变量储存的是地址
+		
 		if (rnode.useAddress) :
 			self.innerCode.addCode(tempname + " := *" + rnode.name)
 			self.innerCode.addCode("*" + rnode.name + " := *" + rnode.name + " - " + tempnameone)
