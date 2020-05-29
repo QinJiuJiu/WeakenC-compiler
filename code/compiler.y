@@ -6,11 +6,15 @@
 
 #include <string>
 
+#include<fstream>
+
 #include "tree.h"
 
 #include "block.h"
 
 #include "Praser.h"
+
+
 
 using namespace std;
 
@@ -28,7 +32,7 @@ gramTree *root;
 
 extern int yylineno;
 
-
+FILE * fp;
 
 int yylex(void);
 
@@ -1521,6 +1525,13 @@ int main(int argc,char* argv[]) {
 	eval(root,0);	//输出语法分析树
 
 	write_json(root,"syntax-tree.json");
+	
+	//graphivz
+	fp = fopen("ir_tree.dot", "w");
+    fprintf(fp, "digraph G{\n");
+    print_tree(root,fp);
+    fprintf(fp, "}\n");
+    fclose(fp);
 
 	Praser praser(root);
 
