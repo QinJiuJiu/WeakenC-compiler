@@ -1,6 +1,5 @@
 #! /usr/bin/python
 # coding=utf-8
-import os
 
 from block import varNode
 
@@ -278,7 +277,7 @@ class Praser:
 
 
 
-                self.statement
+                self.praser_statement(statement)
 
                 self.innerCode.addCode("LABEL " + label2 + " :")
 
@@ -332,7 +331,7 @@ class Praser:
 
 
 
-                self.statement1
+                self.praser_statement(statement1)
 
                 self.innerCode.addCode("GOTO " + label3)
 
@@ -344,7 +343,7 @@ class Praser:
 
                 self.blockStack.append(newblock2)
 
-                self.statement2
+                self.praser_statement(statement2)
 
                 self.innerCode.addCode("LABEL " + label3 + " :")
 
@@ -449,7 +448,7 @@ class Praser:
 
             self.innerCode.addCode("LABEL " + label1 + " :")
 
-            self.statement
+            self.praser_statement(statement)
 
             
 
@@ -2061,7 +2060,7 @@ class Praser:
 
             
 
-            if (self.funcPool.find(funcName) == self.funcPool.end()) :
+            if (funcName not in self.funcPool) :
 
                 self.error(post_exp.left.left.left.line, "Undefined function " + funcName)
 
@@ -2394,9 +2393,9 @@ class Praser:
 
         N = range(len(self.blockStack))
 
-        for i in reversed(N) :
+        for i in reversed(N):
 
-            if (self.blockStack[i].varMap.has_key(name)):
+            if name in self.blockStack[i].varMap:
 
                 return self.blockStack[i].varMap[name]
 

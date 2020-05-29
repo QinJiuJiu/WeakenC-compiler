@@ -17,7 +17,7 @@ def creat_node(dt, total, num):
     node = gramTree()
 
     dic = dt[num]
-    node.name = dic['content']
+    node.content = dic['content']
     node.name = dic['name']
     node.line = dic['line']
     if len(dic['children']) > 0:
