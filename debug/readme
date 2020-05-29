@@ -1,0 +1,6 @@
+./buil.sh       生成dist/compiler
+./test.sh       生成图片 json
+./load_py       生成innercode.txt
+报错
+('self.error! line ', 2)
+Different type for two variables.
