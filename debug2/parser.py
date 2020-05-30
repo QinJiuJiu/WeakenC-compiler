@@ -23,7 +23,7 @@ from quadruples import Quadruples
 import os
 
 
-class Praser:
+class Parser:
     funcPool = None
 
     blockStack = None
@@ -50,7 +50,7 @@ class Praser:
 
         self.root = root
 
-        self.praserInit()
+        self.ParserInit()
 
         self.print_quadruplesList()
 
@@ -83,7 +83,7 @@ class Praser:
 
             out.write('\n')
 
-    def praserInit(self):
+    def ParserInit(self):
 
         wholeBlock = Block()
 
@@ -111,9 +111,9 @@ class Praser:
 
         self.funcPool["read"] = readNode
 
-        self.praserSyntaxTree(self.root)
+        self.ParserSyntaxTree(self.root)
 
-    def praserSyntaxTree(self, node):
+    def ParserSyntaxTree(self, node):
 
         if node == None or node.line == -1:
 
@@ -121,23 +121,23 @@ class Praser:
 
         if node.name == "declaration":
 
-            node = self.praser_declaration(node)
+            node = self.Parser_declaration(node)
 
         elif node.name == "function_definition":
 
-            node = self.praser_function_definition(node)
+            node = self.Parser_function_definition(node)
 
         elif node.name == "statement":
 
-            node = self.praser_statement(node)
+            node = self.Parser_statement(node)
 
         if node is not None:
 
-            self.praserSyntaxTree(node.child)
+            self.ParserSyntaxTree(node.child)
 
-            self.praserSyntaxTree(node.sibling)
+            self.ParserSyntaxTree(node.sibling)
 
-    def praser_statement(self, node):
+    def Parser_statement(self, node):
 
         if node == None:
 
@@ -148,27 +148,27 @@ class Praser:
 
         if node.child.name == "compound_statement":
 
-            self.praser_compound_statement(node.child)
+            self.Parser_compound_statement(node.child)
 
         if node.child.name == "expression_statement":
 
-            self.praser_expression_statement(node.child)
+            self.Parser_expression_statement(node.child)
 
         if node.child.name == "selection_statement":
 
-            self.praser_selection_statement(node.child)
+            self.Parser_selection_statement(node.child)
 
         if node.child.name == "iteration_statement":
 
-            self.praser_iteration_statement(node.child)
+            self.Parser_iteration_statement(node.child)
 
         if node.child.name == "jump_statement":
 
-            self.praser_jump_statement(node.child)
+            self.Parser_jump_statement(node.child)
 
         return node.sibling
 
-    def praser_jump_statement(self, node):
+    def Parser_jump_statement(self, node):
 
         if node == None:
 
@@ -203,7 +203,7 @@ class Praser:
 
             if node.child.sibling.name == "expression":
 
-                rnode = self.praser_expression(node.child.sibling)
+                rnode = self.Parser_expression(node.child.sibling)
 
                 q = Quadruples()
 
@@ -233,7 +233,7 @@ class Praser:
                     self.error(
                         node.child.sibling.line, "You should return " + self.blockStack[-1].func.re_type)
 
-    def praser_expression_statement(self, node):
+    def Parser_expression_statement(self, node):
 
         if node == None:
 
@@ -241,9 +241,9 @@ class Praser:
 
         if node.child.name == "expression":
 
-            self.praser_expression(node.child)
+            self.Parser_expression(node.child)
 
-    def praser_expression(self, node):
+    def Parser_expression(self, node):
 
         if node == None:
 
@@ -251,25 +251,25 @@ class Praser:
 
         if node.child.name == "expression":
 
-            return self.praser_expression(node.child)
+            return self.Parser_expression(node.child)
 
         elif node.child.name == "assignment_expression":
 
-            return self.praser_assignment_expression(node.child)
+            return self.Parser_assignment_expression(node.child)
 
         if node.sibling.name == ",":
 
-            return self.praser_assignment_expression(node.sibling.sibling)
+            return self.Parser_assignment_expression(node.sibling.sibling)
 
-    def praser_compound_statement(self, node):
+    def Parser_compound_statement(self, node):
 
         if node == None:
 
             return
 
-        self.praserSyntaxTree(node)
+        self.ParserSyntaxTree(node)
 
-    def praser_selection_statement(self, node):
+    def Parser_selection_statement(self, node):
 
         if node == None:
 
@@ -285,7 +285,7 @@ class Praser:
 
                 expression = node.child.sibling.sibling
 
-                exp_rnode = self.praser_expression(expression)
+                exp_rnode = self.Parser_expression(expression)
 
                 statement = node.child.sibling.sibling.sibling.sibling
 
@@ -347,7 +347,7 @@ class Praser:
                 q.arg1 = label1
                 self.quadruplesList.append(q)
 
-                self.praser_statement(statement)
+                self.Parser_statement(statement)
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -366,7 +366,7 @@ class Praser:
 
                 expression = node.child.sibling.sibling
 
-                exp_rnode = self.praser_expression(expression)
+                exp_rnode = self.Parser_expression(expression)
 
                 statement1 = node.child.sibling.sibling.sibling.sibling
 
@@ -431,7 +431,7 @@ class Praser:
                 q.arg1 = label1
                 self.quadruplesList.append(q)
 
-                self.praser_statement(statement1)
+                self.Parser_statement(statement1)
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -453,7 +453,7 @@ class Praser:
 
                 self.blockStack.append(newblock2)
 
-                self.praser_statement(statement2)
+                self.Parser_statement(statement2)
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -466,7 +466,7 @@ class Praser:
 
         # elif node.child.name == "SWITCH":
 
-    def praser_iteration_statement(self, node):
+    def Parser_iteration_statement(self, node):
 
         if node == None:
 
@@ -502,7 +502,7 @@ class Praser:
             q.arg1 = label1
             self.quadruplesList.append(q)
 
-            var = self.praser_expression(expression)
+            var = self.Parser_expression(expression)
 
             if var.type == "bool":
 
@@ -554,7 +554,7 @@ class Praser:
             q.arg1 = label2
             self.quadruplesList.append(q)
 
-            self.praser_statement(statement)
+            self.Parser_statement(statement)
 
             q = Quadruples()
             q.num = self.linenum
@@ -599,9 +599,9 @@ class Praser:
             q.arg1 = label1
             self.quadruplesList.append(q)
 
-            self.praser_statement(statement)
+            self.Parser_statement(statement)
 
-            var = self.praser_expression(expression)
+            var = self.Parser_expression(expression)
 
             if var.type == "bool":
 
@@ -679,7 +679,7 @@ class Praser:
 
                     if exp_state1.child.name == "expression":
 
-                        self.praser_expression(exp_state1.child)
+                        self.Parser_expression(exp_state1.child)
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -690,7 +690,7 @@ class Praser:
 
                     if exp_state2.child.name == "expression":
 
-                        var = self.praser_expression(exp_state2.child)
+                        var = self.Parser_expression(exp_state2.child)
 
                         if var.type == "bool":
 
@@ -751,7 +751,7 @@ class Praser:
                     q.arg1 = label2
                     self.quadruplesList.append(q)
 
-                    self.praser_statement(statement)
+                    self.Parser_statement(statement)
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -798,7 +798,7 @@ class Praser:
 
                     if exp_state1.child.name == "expression":
 
-                        self.praser_expression(exp_state1.child)
+                        self.Parser_expression(exp_state1.child)
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -809,7 +809,7 @@ class Praser:
 
                     if exp_state2.child.name == "expression":
 
-                        var = self.praser_expression(exp_state2.child)
+                        var = self.Parser_expression(exp_state2.child)
 
                         if var.type == "bool":
 
@@ -870,7 +870,7 @@ class Praser:
                     q.arg1 = label2
                     self.quadruplesList.append(q)
 
-                    self.praser_statement(statement)
+                    self.Parser_statement(statement)
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -915,7 +915,7 @@ class Praser:
 
                     self.blockStack[-1].label_bk = label3
 
-                    self.praser_declaration(declaration)
+                    self.Parser_declaration(declaration)
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -926,7 +926,7 @@ class Praser:
 
                     if expression_statement.child.name == "expression":
 
-                        var = self.praser_expression(expression_statement.child)
+                        var = self.Parser_expression(expression_statement.child)
 
                         if var.type == "bool":
 
@@ -987,7 +987,7 @@ class Praser:
                     q.arg1 = label2
                     self.quadruplesList.append(q)
 
-                    self.praser_statement(statement)
+                    self.Parser_statement(statement)
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1032,7 +1032,7 @@ class Praser:
 
                     self.blockStack[-1].label_bk = label3
 
-                    self.praser_declaration(declaration)
+                    self.Parser_declaration(declaration)
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1043,7 +1043,7 @@ class Praser:
 
                     if expression_statement.child.name == "expression":
 
-                        var = self.praser_expression(expression_statement.child)
+                        var = self.Parser_expression(expression_statement.child)
 
                         if var.type == "bool":
 
@@ -1104,9 +1104,9 @@ class Praser:
                     q.arg1 = label2
                     self.quadruplesList.append(q)
 
-                    self.praser_statement(statement)
+                    self.Parser_statement(statement)
 
-                    self.praser_expression(expression)
+                    self.Parser_expression(expression)
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1124,7 +1124,7 @@ class Praser:
 
                     self.blockStack.pop()
 
-    def praser_function_definition(self, node):
+    def Parser_function_definition(self, node):
 
         if node == None:
 
@@ -1180,7 +1180,7 @@ class Praser:
 
         if declarator.child.sibling.sibling.name == "parameter_list":
 
-            self.praser_parameter_list(
+            self.Parser_parameter_list(
                 declarator.child.sibling.sibling, funcName, True)
 
         func = self.funcPool[funcName]
@@ -1208,13 +1208,13 @@ class Praser:
 
         funBlock.func = func
 
-        self.praser_compound_statement(compound_statement)
+        self.Parser_compound_statement(compound_statement)
 
         self.blockStack.pop()
 
         return node.sibling
 
-    def praser_parameter_list(self, node, funcName, definite):
+    def Parser_parameter_list(self, node, funcName, definite):
 
         if node == None:
 
@@ -1222,18 +1222,18 @@ class Praser:
 
         if node.child.name == "parameter_list":
 
-            self.praser_parameter_list(node.child, funcName, definite)
+            self.Parser_parameter_list(node.child, funcName, definite)
 
         elif node.child.name == "parameter_declaration":
 
-            self.praser_parameter_declaration(node.child, funcName, definite)
+            self.Parser_parameter_declaration(node.child, funcName, definite)
 
         if node.sibling.name == ",":
 
-            self.praser_parameter_declaration(
+            self.Parser_parameter_declaration(
                 node.sibling.sibling, funcName, definite)
 
-    def praser_parameter_declaration(self, node, funcName, definite):
+    def Parser_parameter_declaration(self, node, funcName, definite):
 
         if node == None:
 
@@ -1282,7 +1282,7 @@ class Praser:
             q.arg1 = 'var' + str(newnode.num)
             self.quadruplesList.append(q)
 
-    def praser_declaration(self, node):
+    def Parser_declaration(self, node):
 
         if node == None:
 
@@ -1302,14 +1302,14 @@ class Praser:
 
         decl = begin.sibling
 
-        self.praser_init_declarator_list(vartype, decl)
+        self.Parser_init_declarator_list(vartype, decl)
 
         return node.sibling
 
 
 
 # TODO =======================================DIVIDE=======================================
-    def praser_init_declarator_list(self, vartype, node):
+    def Parser_init_declarator_list(self, vartype, node):
 
         if node == None:
 
@@ -1317,17 +1317,17 @@ class Praser:
 
         if node.child.name == 'init_declarator_list':
 
-            self.praser_init_declarator_list(vartype, node.child)
+            self.Parser_init_declarator_list(vartype, node.child)
 
         elif node.child.name == 'init_declarator':
 
-            self.praser_init_declarator(vartype, node.child)
+            self.Parser_init_declarator(vartype, node.child)
 
         if node.sibling.name == ',':
 
-            self.praser_init_declarator(vartype, node.sibling.sibling)
+            self.Parser_init_declarator(vartype, node.sibling.sibling)
 
-    def praser_init_declarator(self, vartype, node):
+    def Parser_init_declarator(self, vartype, node):
 
         if node == None:
 
@@ -1388,7 +1388,7 @@ class Praser:
 
                     self.funcPool.append({funcName, newFunc})
 
-                    self.praser_parameter_list(parament_list, funcName, False)
+                    self.Parser_parameter_list(parament_list, funcName, False)
 
                 elif declarator.child.sibling.name == '[':
 
@@ -1398,7 +1398,7 @@ class Praser:
 
                     assign_exp = declarator.child.sibling.sibling
 
-                    rnode = self.praser_assignment_expression(assign_exp)
+                    rnode = self.Parser_assignment_expression(assign_exp)
 
                     if rnode.type != 'int':
 
@@ -1543,7 +1543,7 @@ class Praser:
 
                     if initializer.child.name == 'assignment_expression':
 
-                        rnode = self.praser_assignment_expression(
+                        rnode = self.Parser_assignment_expression(
                             initializer.child)
 
                         q = Quadruples()
@@ -1566,13 +1566,13 @@ class Praser:
 
             self.error(declarator.sibling.line, "Wrong value to variable")
 
-    def praser_assignment_expression(self, assign_exp):
+    def Parser_assignment_expression(self, assign_exp):
 
         if assign_exp.child.name == 'logical_or_expression':
 
             logical_or_exp = assign_exp.child
 
-            return self.praser_logical_or_expression(logical_or_exp)
+            return self.Parser_logical_or_expression(logical_or_exp)
 
         elif assign_exp.child.name == "monocular_expression":
 
@@ -1582,9 +1582,9 @@ class Praser:
 
             next_assign_exp = assign_exp.child.sibling.sibling
 
-            node1 = self.praser_monocular_expression(unary_exp)
+            node1 = self.Parser_monocular_expression(unary_exp)
 
-            node2 = self.praser_assignment_expression(next_assign_exp)
+            node2 = self.Parser_assignment_expression(next_assign_exp)
 
             if op == '=':
 
@@ -1771,19 +1771,19 @@ class Praser:
 
             return node1
 
-    def praser_logical_or_expression(self, logical_or_exp):
+    def Parser_logical_or_expression(self, logical_or_exp):
 
         if logical_or_exp.child.name == 'logical_and_expression':
 
             logical_and_exp = logical_or_exp.child
 
-            return self.praser_logical_and_expression(logical_and_exp)
+            return self.Parser_logical_and_expression(logical_and_exp)
 
         elif logical_or_exp.child.name == 'logical_or_expression':
 
-            node1 = self.praser_logical_or_expression(logical_or_exp.child)
+            node1 = self.Parser_logical_or_expression(logical_or_exp.child)
 
-            node2 = self.praser_logical_and_expression(
+            node2 = self.Parser_logical_and_expression(
                 logical_or_exp.child.sibling.sibling)
 
             if node1.type != 'bool' or node2 != 'bool':
@@ -1816,19 +1816,19 @@ class Praser:
 
             return newnode
 
-    def praser_logical_and_expression(self, logical_and_exp):
+    def Parser_logical_and_expression(self, logical_and_exp):
 
         if logical_and_exp.child.name == 'bitwise_or_expression':
 
             inclusive_or_exp = logical_and_exp.child
 
-            return self.praser_bitwise_or_expression(inclusive_or_exp)
+            return self.Parser_bitwise_or_expression(inclusive_or_exp)
 
         elif logical_and_exp.child.name == 'logical_and_expression':
 
-            node1 = self.praser_logical_and_expression(logical_and_exp.child)
+            node1 = self.Parser_logical_and_expression(logical_and_exp.child)
 
-            node2 = self.praser_bitwise_or_expression(
+            node2 = self.Parser_bitwise_or_expression(
                 logical_and_exp.child.sibling.sibling)
 
             if node1.type != 'bool' or node2 != 'bool':
@@ -1860,19 +1860,19 @@ class Praser:
 
             return newnode
 
-    def praser_bitwise_or_expression(self, inclusive_or_exp):
+    def Parser_bitwise_or_expression(self, inclusive_or_exp):
 
         if inclusive_or_exp.child.name == 'xor_expression':
 
             exclusive_or_exp = inclusive_or_exp.child
 
-            return self.praser_xor_expression(exclusive_or_exp)
+            return self.Parser_xor_expression(exclusive_or_exp)
 
         elif inclusive_or_exp.child.name == 'bitwise_or_expression':
 
-            node1 = self.praser_bitwise_or_expression(inclusive_or_exp.child)
+            node1 = self.Parser_bitwise_or_expression(inclusive_or_exp.child)
 
-            node2 = self.praser_xor_expression(
+            node2 = self.Parser_xor_expression(
                 inclusive_or_exp.child.sibling.sibling)
 
             if node1.type != 'int' or node2 != 'int':
@@ -1900,19 +1900,19 @@ class Praser:
 
             return newnode
 
-    def praser_xor_expression(self, exclusive_or_exp):
+    def Parser_xor_expression(self, exclusive_or_exp):
 
         if exclusive_or_exp.child.name == 'and_expression':
 
             and_exp = exclusive_or_exp.child
 
-            return self.praser_and_expression(and_exp)
+            return self.Parser_and_expression(and_exp)
 
         elif exclusive_or_exp.child.name == 'xor_expression':
 
-            node1 = self.praser_xor_expression(exclusive_or_exp.child)
+            node1 = self.Parser_xor_expression(exclusive_or_exp.child)
 
-            node2 = self.praser_and_expression(
+            node2 = self.Parser_and_expression(
                 exclusive_or_exp.child.sibling.sibling)
 
             if node1.type != 'int' or node2 != 'int':
@@ -1940,19 +1940,19 @@ class Praser:
 
             return newnode
 
-    def praser_and_expression(self, and_exp):
+    def Parser_and_expression(self, and_exp):
 
         if and_exp.child.name == 'equaljudge_expression':
 
             equality_exp = and_exp.child
 
-            return self.praser_equaljudge_expression(equality_exp)
+            return self.Parser_equaljudge_expression(equality_exp)
 
         elif and_exp.child.name == 'and_expression':
 
-            node1 = self.praser_and_expression(and_exp.child)
+            node1 = self.Parser_and_expression(and_exp.child)
 
-            node2 = self.praser_equaljudge_expression(and_exp.child.sibling.sibling)
+            node2 = self.Parser_equaljudge_expression(and_exp.child.sibling.sibling)
 
             if node1.type != 'int' or node2 != 'int':
 
@@ -1979,7 +1979,7 @@ class Praser:
 
             return newnode
 
-    def praser_equaljudge_expression(self, equality_exp):
+    def Parser_equaljudge_expression(self, equality_exp):
 
         print("########")
 
@@ -1993,7 +1993,7 @@ class Praser:
 
             relational_exp = equality_exp.child
 
-            return self.praser_compare_expression(relational_exp)
+            return self.Parser_compare_expression(relational_exp)
 
         elif equality_exp.child.sibling.name == 'EQ_OP' or equality_exp.child.sibling.name == 'NE_OP':
 
@@ -2005,9 +2005,9 @@ class Praser:
 
                 op = '!='
 
-            node1 = self.praser_equaljudge_expression(equality_exp.child)
+            node1 = self.Parser_equaljudge_expression(equality_exp.child)
 
-            node2 = self.praser_compare_expression(
+            node2 = self.Parser_compare_expression(
                 equality_exp.child.sibling.sibling)
 
             if node1.type != node2.type:
@@ -2042,13 +2042,13 @@ class Praser:
 
             return newnode
 
-    def praser_compare_expression(self, relational_exp):
+    def Parser_compare_expression(self, relational_exp):
 
         if relational_exp.child.name == 'shift_expression':
 
             shift_exp = relational_exp.child
 
-            return self.praser_shift_expression(shift_exp)
+            return self.Parser_shift_expression(shift_exp)
 
         else:
 
@@ -2064,9 +2064,9 @@ class Praser:
 
             if op == '>' or op == '<' or op == '>=' or op == '<=':
 
-                node1 = self.praser_compare_expression(relational_exp.child)
+                node1 = self.Parser_compare_expression(relational_exp.child)
 
-                node2 = self.praser_shift_expression(
+                node2 = self.Parser_shift_expression(
                     relational_exp.child.sibling.sibling)
 
                 if node1.type != node2.type:
@@ -2101,7 +2101,7 @@ class Praser:
 
                 return newnode
 
-    def praser_shift_expression(self, shift_exp):
+    def Parser_shift_expression(self, shift_exp):
 
         print("########")
 
@@ -2115,7 +2115,7 @@ class Praser:
 
             additive_exp = shift_exp.child
 
-            return self.praser_addsub_expression(additive_exp)
+            return self.Parser_addsub_expression(additive_exp)
 
         elif shift_exp.child.sibling.name == 'LEFT_OP' or shift_exp.child.sibling.name == 'RIGHT_OP':
 
@@ -2127,9 +2127,9 @@ class Praser:
 
                 op = '>>'
 
-            node1 = self.praser_shift_expression(shift_exp.child)
+            node1 = self.Parser_shift_expression(shift_exp.child)
 
-            node2 = self.praser_addsub_expression(shift_exp.child.sibling.sibling)
+            node2 = self.Parser_addsub_expression(shift_exp.child.sibling.sibling)
 
             if node1.type != 'int' or node2.type != 'int':
 
@@ -2161,19 +2161,19 @@ class Praser:
 
 
 # TODO =======================================DIVIDE=======================================
-    def praser_addsub_expression(self, additive_exp):
+    def Parser_addsub_expression(self, additive_exp):
 
         if additive_exp.child.name == "muldiv_expression":
 
             mult_exp = additive_exp.child
 
-            return self.praser_muldiv_expression(mult_exp)
+            return self.Parser_muldiv_expression(mult_exp)
 
         elif (additive_exp.child.sibling.name == "+" or additive_exp.child.sibling.name == "-"):
 
-            node1 = self.praser_addsub_expression(additive_exp.child)
+            node1 = self.Parser_addsub_expression(additive_exp.child)
 
-            node2 = self.praser_muldiv_expression(
+            node2 = self.Parser_muldiv_expression(
                 additive_exp.child.sibling.sibling)
 
             if node1.type != node2.type:
@@ -2203,19 +2203,19 @@ class Praser:
 
             return newnode
 
-    def praser_muldiv_expression(self, mult_exp):
+    def Parser_muldiv_expression(self, mult_exp):
 
         if mult_exp.child.name == "monocular_expression":
 
             unary_exp = mult_exp.child
 
-            return self.praser_monocular_expression(unary_exp)
+            return self.Parser_monocular_expression(unary_exp)
 
         elif (mult_exp.child.sibling.name == "*" or mult_exp.child.sibling.name == "/" or mult_exp.child.sibling.name == "%"):
 
-            node1 = self.praser_muldiv_expression(mult_exp.child)
+            node1 = self.Parser_muldiv_expression(mult_exp.child)
 
-            node2 = self.praser_monocular_expression(mult_exp.child.sibling.sibling)
+            node2 = self.Parser_monocular_expression(mult_exp.child.sibling.sibling)
 
             if node1.type != node2.type:
 
@@ -2246,17 +2246,17 @@ class Praser:
 
             return newNode
 
-    def praser_monocular_expression(self, unary_exp):
+    def Parser_monocular_expression(self, unary_exp):
 
         if unary_exp.child.name == "postfix_expression":
 
             post_exp = unary_exp.child
 
-            return self.praser_postfix_expression(post_exp)
+            return self.Parser_postfix_expression(post_exp)
 
         elif unary_exp.child.name == "INC_OP":
 
-            rnode = self.praser_monocular_expression(unary_exp.child.sibling)
+            rnode = self.Parser_monocular_expression(unary_exp.child.sibling)
 
             if rnode.type != "int":
 
@@ -2305,7 +2305,7 @@ class Praser:
 
         elif unary_exp.child.name == "DEC_OP":
 
-            rnode = self.praser_monocular_expression(unary_exp.child.sibling)
+            rnode = self.Parser_monocular_expression(unary_exp.child.sibling)
 
             if rnode.type != "int":
 
@@ -2357,7 +2357,7 @@ class Praser:
 
             op = unary_exp.child.child.name
 
-            rnode = self.praser_monocular_expression(unary_exp.child.sibling)
+            rnode = self.Parser_monocular_expression(unary_exp.child.sibling)
 
             if op == "+":
 
@@ -2432,13 +2432,13 @@ class Praser:
 
                 op = "!"
 
-    def praser_postfix_expression(self, post_exp):
+    def Parser_postfix_expression(self, post_exp):
 
         if post_exp.child.name == "basic_expression":
 
             primary_exp = post_exp.child
 
-            return self.praser_basic_expression(primary_exp)
+            return self.Parser_basic_expression(primary_exp)
 
         elif post_exp.child.sibling.name == "[":
 
@@ -2446,7 +2446,7 @@ class Praser:
 
             expression = post_exp.child.sibling.sibling
 
-            enode = self.praser_expression(expression)
+            enode = self.Parser_expression(expression)
 
             anode = self.getArrayNode(arrayName)
 
@@ -2582,7 +2582,7 @@ class Praser:
 
                 argument_exp_list = post_exp.child.sibling.sibling
 
-                self.praser_argument_expression_list(
+                self.Parser_argument_expression_list(
                     argument_exp_list, funcName)
 
             func = self.funcPool[funcName]
@@ -2617,7 +2617,7 @@ class Praser:
 
         elif (post_exp.child.sibling.name == "INC_OP"):
 
-            rnode = self.praser_postfix_expression(post_exp.child)
+            rnode = self.Parser_postfix_expression(post_exp.child)
 
             if (rnode.type != "int"):
 
@@ -2691,7 +2691,7 @@ class Praser:
 
         elif (post_exp.child.sibling.name == "DEC_OP"):
 
-            rnode = self.praser_postfix_expression(post_exp.child)
+            rnode = self.Parser_postfix_expression(post_exp.child)
 
             if (rnode.type != "int"):
 
@@ -2763,7 +2763,7 @@ class Praser:
 
             return newnode
 
-    def praser_argument_expression_list(self, node, funcName):
+    def Parser_argument_expression_list(self, node, funcName):
 
         if node == None:
 
@@ -2777,7 +2777,7 @@ class Praser:
 
         while (argu_exp_list.name == "argument_expression_list"):
 
-            rnode = self.praser_assignment_expression(
+            rnode = self.Parser_assignment_expression(
                 argu_exp_list.sibling.sibling)
 
             q = Quadruples()
@@ -2796,7 +2796,7 @@ class Praser:
                 self.error(argu_exp_list.line,
                            "Wrong type arguments to function " + funcName)
 
-        rnode = self.praser_assignment_expression(argu_exp_list)
+        rnode = self.Parser_assignment_expression(argu_exp_list)
 
         q = Quadruples()
         q.num = self.linenum
@@ -2816,7 +2816,7 @@ class Praser:
 
             #self.error(argu_exp_list.line, "The number of arguments doesn't equal to the function parameters number.")
 
-    def praser_basic_expression(self, primary_exp):
+    def Parser_basic_expression(self, primary_exp):
 
         if (primary_exp.child.name == "IDENTIFIER"):
 
@@ -2913,7 +2913,7 @@ class Praser:
 
             expression = primary_exp.child.sibling
 
-            return self.praser_expression(expression)
+            return self.Parser_expression(expression)
 
     def lookupVar(self, name):
 

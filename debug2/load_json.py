@@ -2,7 +2,7 @@
 # coding=utf-8
 import json
 
-from parser import Praser
+from parser import Parser
 
 
 class SyntaxTree:
@@ -54,5 +54,5 @@ with open("syntax-tree.json", 'r') as load_f:
 
     traverse_tree(root)
 
-    parser = Praser(root)
+    parser = Parser(root)
 
