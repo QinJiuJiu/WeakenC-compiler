@@ -62,15 +62,15 @@ void yyerror(const char*);
 
 %token <gt> ';' ',' ':' '=' '[' ']' '.' '&' '!' '~' '-' '+' '*' '/' '%' '<' '>' '^' '|' '?' '{' '}' '(' ')'
 
-%type <gt> primary_expression postfix_expression argument_expression_list unary_expression unary_operator
+%type <gt> basic_expression postfix_expression argument_expression_list monocular_expression monocular_operator
 
-%type <gt> multiplicative_expression additive_expression shift_expression relational_expression equality_expression
+%type <gt> muldiv_expression addsub_expression shift_expression compare_expression equaljudge_expression
 
-%type <gt> and_expression exclusive_or_expression inclusive_or_expression logical_and_expression logical_or_expression
+%type <gt> and_expression xor_expression bitwise_or_expression logical_and_expression logical_or_expression
 
 %type <gt> assignment_expression assignment_operator expression
 
-%type <gt> declaration init_declarator_list init_declarator type_specifier
+%type <gt> declaration init_declarator_list init_declarator type_definition
 
 %type <gt> declarator 
 
@@ -78,7 +78,7 @@ void yyerror(const char*);
 
 %type <gt> abstract_declarator initializer initializer_list designation designator_list
 
-%type <gt> designator statement labeled_statement compound_statement block_item_list block_item expression_statement
+%type <gt> designator statement compound_statement block_item_list block_item expression_statement
 
 %type <gt> selection_statement iteration_statement jump_statement translation_unit external_declaration function_definition
 
@@ -114,13 +114,7 @@ Program:
 
 
 
-
-
-/*基本表达式*/
-
-
-
-primary_expression: 
+basic_expression: 
 
 
 
@@ -128,7 +122,7 @@ primary_expression:
 
 
 
-        $$ = create_tree("primary_expression",1,$1);
+        $$ = create_tree("basic_expression",1,$1);
 
 
 
@@ -144,7 +138,7 @@ primary_expression:
 
 
 
-        $$ = create_tree("primary_expression",1,$1);
+        $$ = create_tree("basic_expression",1,$1);
 
 
 
@@ -160,7 +154,7 @@ primary_expression:
 
 
 
-        $$ = create_tree("primary_expression",1,$1);
+        $$ = create_tree("basic_expression",1,$1);
 
 
 
@@ -174,7 +168,7 @@ primary_expression:
 
 
 
-        $$ = create_tree("primary_expression",1,$1);
+        $$ = create_tree("basic_expression",1,$1);
 
 
 
@@ -190,7 +184,7 @@ primary_expression:
 
 
 
-        $$ = create_tree("primary_expression",1,$1);
+        $$ = create_tree("basic_expression",1,$1);
 
 
 
@@ -203,7 +197,7 @@ primary_expression:
 
 
 
-        $$ = create_tree("primary_expression",3,$1,$2,$3);
+        $$ = create_tree("basic_expression",3,$1,$2,$3);
 
 
 
@@ -216,18 +210,11 @@ primary_expression:
 
 
 
-
-
-
-/*后缀表达式*/
-
-
-
 postfix_expression:
 
 
 
-    primary_expression{
+    basic_expression{
 
 
 
@@ -247,9 +234,6 @@ postfix_expression:
 
 
 
-        //数组调用
-
-
 
     }
 
@@ -260,10 +244,6 @@ postfix_expression:
 
 
         $$ = create_tree("postfix_expression",3,$1,$2,$3);
-
-
-
-        //函数调用
 
 
 
@@ -279,9 +259,6 @@ postfix_expression:
 
 
 
-        //函数调用
-
-
 
     }
 
@@ -291,7 +268,6 @@ postfix_expression:
 
 
 
-        //++
 
 
 
@@ -305,9 +281,6 @@ postfix_expression:
 
     |   postfix_expression DEC_OP{
 
-
-
-        //--
 
 
 
@@ -363,11 +336,8 @@ argument_expression_list:
 
 
 
-/*一元表达式*/
 
-
-
-unary_expression:
+monocular_expression:
 
 
 
@@ -376,7 +346,7 @@ unary_expression:
 
 
 
-        $$ = create_tree("unary_expression",1,$1);
+        $$ = create_tree("monocular_expression",1,$1);
 
 
 
@@ -384,31 +354,15 @@ unary_expression:
 
 
 
-    |   INC_OP unary_expression{
+    |   INC_OP monocular_expression{
 
 
 
-        //++
 
 
 
-        $$ = create_tree("unary_expression",2,$1,$2);
 
-
-
-    }
-
-
-
-    |   DEC_OP unary_expression{
-
-
-
-        //--
-
-
-
-        $$ = create_tree("unary_expression",2,$1,$2);
+        $$ = create_tree("monocular_expression",2,$1,$2);
 
 
 
@@ -416,11 +370,25 @@ unary_expression:
 
 
 
-    |   unary_operator unary_expression{
+    |   DEC_OP monocular_expression{
 
 
 
-        $$ = create_tree("unary_expression",2,$1,$2);
+
+
+        $$ = create_tree("monocular_expression",2,$1,$2);
+
+
+
+    }
+
+
+
+    |   monocular_operator monocular_expression{
+
+
+
+        $$ = create_tree("monocular_expression",2,$1,$2);
 
 
 
@@ -432,15 +400,7 @@ unary_expression:
 
 
 
-
-
-
-
-/*单目运算符*/
-
-
-
-unary_operator:
+monocular_operator:
 
 
 
@@ -448,7 +408,7 @@ unary_operator:
 
 
 
-        $$ = create_tree("unary_operator",1,$1);
+        $$ = create_tree("monocular_operator",1,$1);
 
 
 
@@ -460,7 +420,7 @@ unary_operator:
 
 
 
-        $$ = create_tree("unary_operator",1,$1);
+        $$ = create_tree("monocular_operator",1,$1);
 
 
 
@@ -472,7 +432,7 @@ unary_operator:
 
 
 
-        $$ = create_tree("unary_operator",1,$1);
+        $$ = create_tree("monocular_operator",1,$1);
 
 
 
@@ -484,7 +444,64 @@ unary_operator:
 
 
 
-        $$ = create_tree("unary_operator",1,$1);
+        $$ = create_tree("monocular_operator",1,$1);
+
+
+
+    }
+
+
+
+    ;
+
+
+
+
+muldiv_expression:
+
+
+
+    monocular_expression {
+
+
+
+        $$ = create_tree("muldiv_expression",1,$1);
+
+
+
+    }
+
+
+
+    | muldiv_expression '*' monocular_expression {
+
+
+
+        $$ = create_tree("muldiv_expression",3,$1,$2,$3);
+
+
+
+    }
+
+
+
+    | muldiv_expression '/' monocular_expression {
+
+
+
+        $$ = create_tree("muldiv_expression",3,$1,$2,$3);
+
+
+
+    }
+
+
+
+    | muldiv_expression '%' monocular_expression {
+
+
+
+        $$ = create_tree("muldiv_expression",3,$1,$2,$3);
 
 
 
@@ -498,21 +515,15 @@ unary_operator:
 
 
 
-
-
-/*可乘表达式*/
-
-
-
-multiplicative_expression:
+addsub_expression:
 
 
 
-    unary_expression {
+    muldiv_expression  {
 
 
 
-        $$ = create_tree("multiplicative_expression",1,$1);
+        $$ = create_tree("addsub_expression",1,$1);
 
 
 
@@ -520,23 +531,11 @@ multiplicative_expression:
 
 
 
-    | multiplicative_expression '*' unary_expression {
+    | addsub_expression '+' muldiv_expression {
 
 
 
-        $$ = create_tree("multiplicative_expression",3,$1,$2,$3);
-
-
-
-    }
-
-
-
-    | multiplicative_expression '/' unary_expression {
-
-
-
-        $$ = create_tree("multiplicative_expression",3,$1,$2,$3);
+        $$ = create_tree("addsub_expression",3,$1,$2,$3);
 
 
 
@@ -544,11 +543,11 @@ multiplicative_expression:
 
 
 
-    | multiplicative_expression '%' unary_expression {
+    | addsub_expression '-' muldiv_expression {
 
 
 
-        $$ = create_tree("multiplicative_expression",3,$1,$2,$3);
+        $$ = create_tree("addsub_expression",3,$1,$2,$3);
 
 
 
@@ -557,66 +556,6 @@ multiplicative_expression:
 
 
     ;
-
-
-
-
-
-
-
-/*可加表达式*/
-
-
-
-additive_expression:
-
-
-
-    multiplicative_expression  {
-
-
-
-        $$ = create_tree("additive_expression",1,$1);
-
-
-
-    }
-
-
-
-    | additive_expression '+' multiplicative_expression {
-
-
-
-        $$ = create_tree("additive_expression",3,$1,$2,$3);
-
-
-
-    }
-
-
-
-    | additive_expression '-' multiplicative_expression {
-
-
-
-        $$ = create_tree("additive_expression",3,$1,$2,$3);
-
-
-
-    }
-
-
-
-    ;
-
-
-
-
-
-
-
-/*左移右移*/
 
 
 
@@ -624,7 +563,7 @@ shift_expression:
 
 
 
-    additive_expression {
+    addsub_expression {
 
 
 
@@ -636,11 +575,8 @@ shift_expression:
 
 
 
-    | shift_expression LEFT_OP additive_expression {
+    | shift_expression LEFT_OP addsub_expression {
 
-
-
-        //<<
 
 
 
@@ -652,11 +588,9 @@ shift_expression:
 
 
 
-    | shift_expression RIGHT_OP additive_expression {
+    | shift_expression RIGHT_OP addsub_expression {
 
 
-
-        //<<
 
 
 
@@ -674,13 +608,7 @@ shift_expression:
 
 
 
-
-
-/*关系表达式*/
-
-
-
-relational_expression:
+compare_expression:
 
 
 
@@ -688,7 +616,7 @@ relational_expression:
 
 
 
-        $$ = create_tree("relational_expression",1,$1);
+        $$ = create_tree("compare_expression",1,$1);
 
 
 
@@ -696,23 +624,11 @@ relational_expression:
 
 
 
-    | relational_expression '<' shift_expression {
+    | compare_expression '<' shift_expression {
 
 
 
-        $$ = create_tree("relational_expression",3,$1,$2,$3);
-
-
-
-    }
-
-
-
-    | relational_expression '>' shift_expression {
-
-
-
-        $$ = create_tree("relational_expression",3,$1,$2,$3);
+        $$ = create_tree("compare_expression",3,$1,$2,$3);
 
 
 
@@ -720,15 +636,11 @@ relational_expression:
 
 
 
-    | relational_expression LE_OP shift_expression {
+    | compare_expression '>' shift_expression {
 
 
 
-        // <= 
-
-
-
-        $$ = create_tree("relational_expression",3,$1,$2,$3);
+        $$ = create_tree("compare_expression",3,$1,$2,$3);
 
 
 
@@ -736,15 +648,28 @@ relational_expression:
 
 
 
-    | relational_expression GE_OP shift_expression {
+    | compare_expression LE_OP shift_expression {
 
 
 
-        // >=
+
+
+        $$ = create_tree("compare_expression",3,$1,$2,$3);
 
 
 
-        $$ = create_tree("relational_expression",3,$1,$2,$3);
+    }
+
+
+
+    | compare_expression GE_OP shift_expression {
+
+
+
+
+
+
+        $$ = create_tree("compare_expression",3,$1,$2,$3);
 
 
 
@@ -758,21 +683,15 @@ relational_expression:
 
 
 
-
-
-/*相等表达式*/
-
-
-
-equality_expression:
+equaljudge_expression:
 
 
 
-    relational_expression {
+    compare_expression {
 
 
 
-        $$ = create_tree("equality_expression",1,$1);
+        $$ = create_tree("equaljudge_expression",1,$1);
 
 
 
@@ -780,15 +699,14 @@ equality_expression:
 
 
 
-    | equality_expression EQ_OP relational_expression {
+    | equaljudge_expression EQ_OP compare_expression {
 
 
 
-        // ==
 
 
 
-        $$ = create_tree("equality_expression",3,$1,$2,$3);
+        $$ = create_tree("equaljudge_expression",3,$1,$2,$3);
 
 
 
@@ -796,15 +714,13 @@ equality_expression:
 
 
 
-    | equality_expression NE_OP relational_expression {
+    | equaljudge_expression NE_OP compare_expression {
 
 
 
-        // !=
 
 
-
-        $$ = create_tree("equality_expression",3,$1,$2,$3);
+        $$ = create_tree("equaljudge_expression",3,$1,$2,$3);
 
 
 
@@ -824,7 +740,7 @@ and_expression:
 
 
 
-    equality_expression {
+    equaljudge_expression {
 
 
 
@@ -836,7 +752,7 @@ and_expression:
 
 
 
-    | and_expression '&' equality_expression {
+    | and_expression '&' equaljudge_expression {
 
 
 
@@ -854,13 +770,7 @@ and_expression:
 
 
 
-
-
-/*异或*/
-
-
-
-exclusive_or_expression:
+xor_expression:
 
 
 
@@ -868,7 +778,7 @@ exclusive_or_expression:
 
 
 
-        $$ = create_tree("exclusive_or_expression",1,$1);
+        $$ = create_tree("xor_expression",1,$1);
 
 
 
@@ -876,51 +786,11 @@ exclusive_or_expression:
 
 
 
-    | exclusive_or_expression '^' and_expression {
+    | xor_expression '^' and_expression {
 
 
 
-        $$ = create_tree("exclusive_or_expression",3,$1,$2,$3);
-
-
-
-    }
-
-
-
-    ;
-
-
-
-
-
-
-
-/*或*/
-
-
-
-inclusive_or_expression:
-
-
-
-    exclusive_or_expression {
-
-
-
-        $$ = create_tree("inclusive_or_expression",1,$1);
-
-
-
-    }
-
-
-
-    | inclusive_or_expression '|' exclusive_or_expression {
-
-
-
-        $$ = create_tree("inclusive_or_expression",3,$1,$2,$3);
+        $$ = create_tree("xor_expression",3,$1,$2,$3);
 
 
 
@@ -935,8 +805,39 @@ inclusive_or_expression:
 
 
 
+bitwise_or_expression:
 
-/*and逻辑表达式*/
+
+
+    xor_expression {
+
+
+
+        $$ = create_tree("bitwise_or_expression",1,$1);
+
+
+
+    }
+
+
+
+    | bitwise_or_expression '|' xor_expression {
+
+
+
+        $$ = create_tree("bitwise_or_expression",3,$1,$2,$3);
+
+
+
+    }
+
+
+
+    ;
+
+
+
+
 
 
 
@@ -944,7 +845,7 @@ logical_and_expression:
 
 
 
-    inclusive_or_expression {
+    bitwise_or_expression {
 
 
 
@@ -956,11 +857,10 @@ logical_and_expression:
 
 
 
-    | logical_and_expression AND_OP inclusive_or_expression {
+    | logical_and_expression AND_OP bitwise_or_expression {
 
 
 
-        //&&
 
 
 
@@ -974,13 +874,6 @@ logical_and_expression:
 
     ;
 
-
-
-
-
-
-
-/*or 逻辑表达式*/
 
 
 
@@ -1004,8 +897,6 @@ logical_or_expression:
 
 
 
-        //||
-
 
 
         $$ = create_tree("logical_or_expression",3,$1,$2,$3);
@@ -1024,10 +915,6 @@ logical_or_expression:
 
 
 
-/*赋值表达式*/
-
-
-
 assignment_expression:
 
 
@@ -1036,7 +923,6 @@ assignment_expression:
 
 
 
-        //条件表达式
 
 
 
@@ -1048,7 +934,7 @@ assignment_expression:
 
 
 
-    | unary_expression assignment_operator assignment_expression {
+    | monocular_expression assignment_operator assignment_expression {
 
 
 
@@ -1064,11 +950,6 @@ assignment_expression:
 
 
 
-
-
-
-
-/*赋值运算符*/
 
 
 
@@ -1092,9 +973,6 @@ assignment_operator:
 
 
 
-        //*=
-
-
 
         $$ = create_tree("assignment_operator",1,$1);
 
@@ -1106,9 +984,6 @@ assignment_operator:
 
     | DIV_ASSIGN {
 
-
-
-        // /=
 
 
 
@@ -1124,8 +999,6 @@ assignment_operator:
 
 
 
-        // %=
-
 
 
         $$ = create_tree("assignment_operator",1,$1);
@@ -1140,7 +1013,6 @@ assignment_operator:
 
 
 
-        // += 
 
 
 
@@ -1156,8 +1028,6 @@ assignment_operator:
 
 
 
-        // -=
-
 
 
         $$ = create_tree("assignment_operator",1,$1);
@@ -1172,7 +1042,6 @@ assignment_operator:
 
 
 
-        // <<=
 
 
 
@@ -1188,7 +1057,6 @@ assignment_operator:
 
 
 
-        // >>=
 
 
 
@@ -1204,9 +1072,6 @@ assignment_operator:
 
 
 
-        // &=
-
-
 
         $$ = create_tree("assignment_operator",1,$1);
 
@@ -1219,8 +1084,6 @@ assignment_operator:
     | XOR_ASSIGN {
 
 
-
-        // ^=
 
 
 
@@ -1235,8 +1098,6 @@ assignment_operator:
     | OR_ASSIGN {
 
 
-
-        // |=
 
 
 
@@ -1256,10 +1117,6 @@ assignment_operator:
 
 
 
-/*表达式*/
-
-
-
 expression:
 
 
@@ -1267,8 +1124,6 @@ expression:
     assignment_expression {
 
 
-
-        //赋值表达式
 
 
 
@@ -1282,9 +1137,6 @@ expression:
 
     | expression ',' assignment_expression {
 
-
-
-        //逗号表达式
 
 
 
@@ -1312,7 +1164,7 @@ declaration:
 
 
 
-    type_specifier ';' {
+    type_definition ';' {
 
 
 
@@ -1324,7 +1176,7 @@ declaration:
 
 
 
-    | type_specifier init_declarator_list ';' {
+    | type_definition init_declarator_list ';' {
 
 
 
@@ -1424,11 +1276,9 @@ init_declarator:
 
 
 
-/*类型说明符*/
 
 
-
-type_specifier:
+type_definition:
 
 
 
@@ -1436,7 +1286,7 @@ type_specifier:
 
 
 
-        $$ = create_tree("type_specifier",1,$1);
+        $$ = create_tree("type_definition",1,$1);
 
 
 
@@ -1448,7 +1298,7 @@ type_specifier:
 
 
 
-        $$ = create_tree("type_specifier",1,$1);
+        $$ = create_tree("type_definition",1,$1);
 
 
 
@@ -1460,7 +1310,7 @@ type_specifier:
 
 
 
-        $$ = create_tree("type_specifier",1,$1);
+        $$ = create_tree("type_definition",1,$1);
 
 
 
@@ -1472,7 +1322,7 @@ type_specifier:
 
 
 
-        $$ = create_tree("type_specifier",1,$1);    
+        $$ = create_tree("type_definition",1,$1);    
 
 
 
@@ -1484,7 +1334,7 @@ type_specifier:
 
 
 
-        $$ = create_tree("type_specifier",1,$1);
+        $$ = create_tree("type_definition",1,$1);
 
 
 
@@ -1516,8 +1366,7 @@ declarator:
 
 
 
-        //变量
-
+      
 
 
         $$ = create_tree("declarator",1,$1);
@@ -1532,8 +1381,7 @@ declarator:
 
 
 
-        //.....
-
+        
 
 
         $$ = create_tree("declarator",3,$1,$2,$3);
@@ -1547,8 +1395,6 @@ declarator:
     | declarator '[' assignment_expression ']' {
 
 
-
-        //数组
 
 
 
@@ -1564,8 +1410,6 @@ declarator:
 
 
 
-        //....
-
 
 
         $$ = create_tree("declarator",4,$1,$2,$3,$4);
@@ -1579,8 +1423,6 @@ declarator:
     | declarator '[' ']' {
 
 
-
-        //数组
 
 
 
@@ -1596,7 +1438,6 @@ declarator:
 
 
 
-        //函数
 
 
 
@@ -1612,7 +1453,6 @@ declarator:
 
 
 
-        //函数
 
 
 
@@ -1628,8 +1468,7 @@ declarator:
 
 
 
-        //函数
-
+  
 
 
         $$ = create_tree("declarator",3,$1,$2,$3);
@@ -1644,15 +1483,6 @@ declarator:
 
 
 
-
-
-
-
-
-
-
-
-//参数列表
 
 
 
@@ -1696,7 +1526,7 @@ parameter_declaration:
 
 
 
-    type_specifier declarator {
+    type_definition declarator {
 
 
 
@@ -1708,7 +1538,7 @@ parameter_declaration:
 
 
 
-    | type_specifier abstract_declarator {
+    | type_definition abstract_declarator {
 
 
 
@@ -1720,7 +1550,7 @@ parameter_declaration:
 
 
 
-    | type_specifier {
+    | type_definition {
 
 
 
@@ -1920,10 +1750,6 @@ abstract_declarator:
 
 
 
-//初始化
-
-
-
 initializer:
 
 
@@ -1944,7 +1770,6 @@ initializer:
 
 
 
-        //列表初始化 {1,1,1}
 
 
 
@@ -1960,7 +1785,6 @@ initializer:
 
 
 
-        //列表初始化 {1,1,1,}
 
 
 
@@ -2144,19 +1968,7 @@ statement:
 
 
 
-    labeled_statement {
-
-
-
-        $$ = create_tree("statement",1,$1);
-
-
-
-    }
-
-
-
-    | compound_statement {
+    compound_statement {
 
 
 
@@ -2220,41 +2032,6 @@ statement:
 
 
 
-
-
-
-
-//标签声明
-
-
-
-labeled_statement:
-
-
-
-    IDENTIFIER ':' statement {
-
-
-
-        $$ = create_tree("labeled_statement",3,$1,$2,$3);
-
-
-
-    }
-
-
-
-
-
-    ;
-
-
-
-
-
-
-
-//复合语句
 
 
 
@@ -2400,12 +2177,6 @@ expression_statement:
 
 
 
-
-
-//条件语句
-
-
-
 selection_statement:
 
 
@@ -2443,10 +2214,6 @@ selection_statement:
 
 
 
-
-
-
-//循环语句
 
 
 
@@ -2529,12 +2296,6 @@ iteration_statement:
     ;
 
 
-
-
-
-
-
-//跳转指令
 
 
 
@@ -2645,9 +2406,6 @@ external_declaration:
 
 
 
-        //函数定义
-
-
 
     }
 
@@ -2659,9 +2417,6 @@ external_declaration:
 
         $$ = create_tree("external_declaration",1,$1);
 
-
-
-        //变量声明
 
 
     }
@@ -2680,7 +2435,7 @@ function_definition:
 
 
 
-    type_specifier declarator declaration_list compound_statement {
+    type_definition declarator declaration_list compound_statement {
 
 
 
@@ -2692,7 +2447,7 @@ function_definition:
 
 
 
-    | type_specifier declarator compound_statement {
+    | type_definition declarator compound_statement {
 
 
 

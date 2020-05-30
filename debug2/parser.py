@@ -145,9 +145,6 @@ class Praser:
 
         temp = node.child
 
-        if node.child.name == "labeled_statement":
-
-            node.child.name = "labeled_statement"
 
         if node.child.name == "compound_statement":
 
@@ -1133,13 +1130,13 @@ class Praser:
 
             return
 
-        type_specifier = node.child
+        type_definition = node.child
 
         declarator = node.child.sibling
 
         compound_statement = declarator.sibling
 
-        funcType = type_specifier.child.content
+        funcType = type_definition.child.content
 
         funcName = declarator.child.child.content
 
@@ -1192,7 +1189,7 @@ class Praser:
 
             if func.re_type != declarFunc.re_type:
 
-                self.error(type_specifier.child.line,
+                self.error(type_definition.child.line,
                            "Function return type doesn't equal to the function declared before.")
 
             print(len(funBlock.func.para_list))
@@ -1242,15 +1239,15 @@ class Praser:
 
             return
 
-        type_specifier = node.child
+        type_definition = node.child
 
         declarator = node.child.sibling
 
-        typeName = type_specifier.child.content
+        typeName = type_definition.child.content
 
         if typeName == "void":
 
-            self.error(type_specifier.line, "Void can't definite parameter.")
+            self.error(type_definition.line, "Void can't definite parameter.")
 
         varName = declarator.child.content
 
@@ -1577,7 +1574,7 @@ class Praser:
 
             return self.praser_logical_or_expression(logical_or_exp)
 
-        elif assign_exp.child.name == "unary_expression":
+        elif assign_exp.child.name == "monocular_expression":
 
             unary_exp = assign_exp.child
 
@@ -1585,7 +1582,7 @@ class Praser:
 
             next_assign_exp = assign_exp.child.sibling.sibling
 
-            node1 = self.praser_unary_expression(unary_exp)
+            node1 = self.praser_monocular_expression(unary_exp)
 
             node2 = self.praser_assignment_expression(next_assign_exp)
 
@@ -1821,17 +1818,17 @@ class Praser:
 
     def praser_logical_and_expression(self, logical_and_exp):
 
-        if logical_and_exp.child.name == 'inclusive_or_expression':
+        if logical_and_exp.child.name == 'bitwise_or_expression':
 
             inclusive_or_exp = logical_and_exp.child
 
-            return self.praser_inclusive_or_expression(inclusive_or_exp)
+            return self.praser_bitwise_or_expression(inclusive_or_exp)
 
         elif logical_and_exp.child.name == 'logical_and_expression':
 
             node1 = self.praser_logical_and_expression(logical_and_exp.child)
 
-            node2 = self.praser_inclusive_or_expression(
+            node2 = self.praser_bitwise_or_expression(
                 logical_and_exp.child.sibling.sibling)
 
             if node1.type != 'bool' or node2 != 'bool':
@@ -1863,19 +1860,19 @@ class Praser:
 
             return newnode
 
-    def praser_inclusive_or_expression(self, inclusive_or_exp):
+    def praser_bitwise_or_expression(self, inclusive_or_exp):
 
-        if inclusive_or_exp.child.name == 'exclusive_or_expression':
+        if inclusive_or_exp.child.name == 'xor_expression':
 
             exclusive_or_exp = inclusive_or_exp.child
 
-            return self.praser_exclusive_or_expression(exclusive_or_exp)
+            return self.praser_xor_expression(exclusive_or_exp)
 
-        elif inclusive_or_exp.child.name == 'inclusive_or_expression':
+        elif inclusive_or_exp.child.name == 'bitwise_or_expression':
 
-            node1 = self.praser_inclusive_or_expression(inclusive_or_exp.child)
+            node1 = self.praser_bitwise_or_expression(inclusive_or_exp.child)
 
-            node2 = self.praser_exclusive_or_expression(
+            node2 = self.praser_xor_expression(
                 inclusive_or_exp.child.sibling.sibling)
 
             if node1.type != 'int' or node2 != 'int':
@@ -1903,7 +1900,7 @@ class Praser:
 
             return newnode
 
-    def praser_exclusive_or_expression(self, exclusive_or_exp):
+    def praser_xor_expression(self, exclusive_or_exp):
 
         if exclusive_or_exp.child.name == 'and_expression':
 
@@ -1911,9 +1908,9 @@ class Praser:
 
             return self.praser_and_expression(and_exp)
 
-        elif exclusive_or_exp.child.name == 'exclusive_or_expression':
+        elif exclusive_or_exp.child.name == 'xor_expression':
 
-            node1 = self.praser_exclusive_or_expression(exclusive_or_exp.child)
+            node1 = self.praser_xor_expression(exclusive_or_exp.child)
 
             node2 = self.praser_and_expression(
                 exclusive_or_exp.child.sibling.sibling)
@@ -1945,17 +1942,17 @@ class Praser:
 
     def praser_and_expression(self, and_exp):
 
-        if and_exp.child.name == 'equality_expression':
+        if and_exp.child.name == 'equaljudge_expression':
 
             equality_exp = and_exp.child
 
-            return self.praser_equality_expression(equality_exp)
+            return self.praser_equaljudge_expression(equality_exp)
 
         elif and_exp.child.name == 'and_expression':
 
             node1 = self.praser_and_expression(and_exp.child)
 
-            node2 = self.praser_equality_expression(and_exp.child.sibling.sibling)
+            node2 = self.praser_equaljudge_expression(and_exp.child.sibling.sibling)
 
             if node1.type != 'int' or node2 != 'int':
 
@@ -1982,7 +1979,7 @@ class Praser:
 
             return newnode
 
-    def praser_equality_expression(self, equality_exp):
+    def praser_equaljudge_expression(self, equality_exp):
 
         print("########")
 
@@ -1992,11 +1989,11 @@ class Praser:
 
         print("########")
 
-        if equality_exp.child.name == 'relational_expression':
+        if equality_exp.child.name == 'compare_expression':
 
             relational_exp = equality_exp.child
 
-            return self.praser_relational_expression(relational_exp)
+            return self.praser_compare_expression(relational_exp)
 
         elif equality_exp.child.sibling.name == 'EQ_OP' or equality_exp.child.sibling.name == 'NE_OP':
 
@@ -2008,9 +2005,9 @@ class Praser:
 
                 op = '!='
 
-            node1 = self.praser_equality_expression(equality_exp.child)
+            node1 = self.praser_equaljudge_expression(equality_exp.child)
 
-            node2 = self.praser_relational_expression(
+            node2 = self.praser_compare_expression(
                 equality_exp.child.sibling.sibling)
 
             if node1.type != node2.type:
@@ -2045,7 +2042,7 @@ class Praser:
 
             return newnode
 
-    def praser_relational_expression(self, relational_exp):
+    def praser_compare_expression(self, relational_exp):
 
         if relational_exp.child.name == 'shift_expression':
 
@@ -2067,7 +2064,7 @@ class Praser:
 
             if op == '>' or op == '<' or op == '>=' or op == '<=':
 
-                node1 = self.praser_relational_expression(relational_exp.child)
+                node1 = self.praser_compare_expression(relational_exp.child)
 
                 node2 = self.praser_shift_expression(
                     relational_exp.child.sibling.sibling)
@@ -2114,11 +2111,11 @@ class Praser:
 
         print("########")
 
-        if shift_exp.child.name == 'additive_expression':
+        if shift_exp.child.name == 'addsub_expression':
 
             additive_exp = shift_exp.child
 
-            return self.praser_additive_expression(additive_exp)
+            return self.praser_addsub_expression(additive_exp)
 
         elif shift_exp.child.sibling.name == 'LEFT_OP' or shift_exp.child.sibling.name == 'RIGHT_OP':
 
@@ -2132,7 +2129,7 @@ class Praser:
 
             node1 = self.praser_shift_expression(shift_exp.child)
 
-            node2 = self.praser_additive_expression(shift_exp.child.sibling.sibling)
+            node2 = self.praser_addsub_expression(shift_exp.child.sibling.sibling)
 
             if node1.type != 'int' or node2.type != 'int':
 
@@ -2164,19 +2161,19 @@ class Praser:
 
 
 # TODO =======================================DIVIDE=======================================
-    def praser_additive_expression(self, additive_exp):
+    def praser_addsub_expression(self, additive_exp):
 
-        if additive_exp.child.name == "multiplicative_expression":
+        if additive_exp.child.name == "muldiv_expression":
 
             mult_exp = additive_exp.child
 
-            return self.praser_multiplicative_expression(mult_exp)
+            return self.praser_muldiv_expression(mult_exp)
 
         elif (additive_exp.child.sibling.name == "+" or additive_exp.child.sibling.name == "-"):
 
-            node1 = self.praser_additive_expression(additive_exp.child)
+            node1 = self.praser_addsub_expression(additive_exp.child)
 
-            node2 = self.praser_multiplicative_expression(
+            node2 = self.praser_muldiv_expression(
                 additive_exp.child.sibling.sibling)
 
             if node1.type != node2.type:
@@ -2206,19 +2203,19 @@ class Praser:
 
             return newnode
 
-    def praser_multiplicative_expression(self, mult_exp):
+    def praser_muldiv_expression(self, mult_exp):
 
-        if mult_exp.child.name == "unary_expression":
+        if mult_exp.child.name == "monocular_expression":
 
             unary_exp = mult_exp.child
 
-            return self.praser_unary_expression(unary_exp)
+            return self.praser_monocular_expression(unary_exp)
 
         elif (mult_exp.child.sibling.name == "*" or mult_exp.child.sibling.name == "/" or mult_exp.child.sibling.name == "%"):
 
-            node1 = self.praser_multiplicative_expression(mult_exp.child)
+            node1 = self.praser_muldiv_expression(mult_exp.child)
 
-            node2 = self.praser_unary_expression(mult_exp.child.sibling.sibling)
+            node2 = self.praser_monocular_expression(mult_exp.child.sibling.sibling)
 
             if node1.type != node2.type:
 
@@ -2249,7 +2246,7 @@ class Praser:
 
             return newNode
 
-    def praser_unary_expression(self, unary_exp):
+    def praser_monocular_expression(self, unary_exp):
 
         if unary_exp.child.name == "postfix_expression":
 
@@ -2259,7 +2256,7 @@ class Praser:
 
         elif unary_exp.child.name == "INC_OP":
 
-            rnode = self.praser_unary_expression(unary_exp.child.sibling)
+            rnode = self.praser_monocular_expression(unary_exp.child.sibling)
 
             if rnode.type != "int":
 
@@ -2308,7 +2305,7 @@ class Praser:
 
         elif unary_exp.child.name == "DEC_OP":
 
-            rnode = self.praser_unary_expression(unary_exp.child.sibling)
+            rnode = self.praser_monocular_expression(unary_exp.child.sibling)
 
             if rnode.type != "int":
 
@@ -2356,11 +2353,11 @@ class Praser:
 
             return rnode
 
-        elif (unary_exp.child.name == "unary_operator"):
+        elif (unary_exp.child.name == "monocular_operator"):
 
             op = unary_exp.child.child.name
 
-            rnode = self.praser_unary_expression(unary_exp.child.sibling)
+            rnode = self.praser_monocular_expression(unary_exp.child.sibling)
 
             if op == "+":
 
@@ -2437,11 +2434,11 @@ class Praser:
 
     def praser_postfix_expression(self, post_exp):
 
-        if post_exp.child.name == "primary_expression":
+        if post_exp.child.name == "basic_expression":
 
             primary_exp = post_exp.child
 
-            return self.praser_primary_expression(primary_exp)
+            return self.praser_basic_expression(primary_exp)
 
         elif post_exp.child.sibling.name == "[":
 
@@ -2819,7 +2816,7 @@ class Praser:
 
             #self.error(argu_exp_list.line, "The number of arguments doesn't equal to the function parameters number.")
 
-    def praser_primary_expression(self, primary_exp):
+    def praser_basic_expression(self, primary_exp):
 
         if (primary_exp.child.name == "IDENTIFIER"):
 

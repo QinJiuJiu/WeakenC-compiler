@@ -24,14 +24,6 @@ SyntaxTree *create_tree(string name, int num, ...)
 
     SyntaxTree *head = new SyntaxTree();
 
-    if (!head)
-    {
-
-        printf("Out of space \n");
-
-        exit(0);
-    }
-
     head->number = count_node++;
 
     head->child = NULL;
@@ -58,8 +50,6 @@ SyntaxTree *create_tree(string name, int num, ...)
         if (num == 1)
         {
 
-            //head->content = temp->content;
-
             if (temp->content.size() > 0)
             {
 
@@ -73,7 +63,7 @@ SyntaxTree *create_tree(string name, int num, ...)
         else
         {
 
-            for (int i = 1; i < num; ++i)
+            for (int i = 1; i < num; i++)
             {
 
                 temp->sibling = va_arg(valist, SyntaxTree *);
@@ -99,7 +89,6 @@ SyntaxTree *create_tree(string name, int num, ...)
 
             head->content = inttostr(value);
 
-            //printf("%d",value);
         }
 
         else if (head->name == "CONSTANT_DOUBLE")

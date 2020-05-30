@@ -41,11 +41,6 @@ FS			(f|F|l|L)
 %%
 
 
-"/*"			{ comment();/*注释*/}
-
-"//"[^\n]*      { /* consume //-comment */ }
-
-
 
 "bool"			{ count(); yylval.gt =create_tree("BOOL",0,yylineno); 		return(BOOL);	}
 
@@ -99,6 +94,10 @@ L?'(\\.|[^\\'\n])+'		{ count(); return(CONSTANT); }
 0[xX]{H}+"."{H}*{P}?{FS}?   { count(); return(CONSTANT); }
 
 
+
+"/*"			{ comment();/*注释*/}
+
+"//"[^\n]*      { /* consume //-comment */ }
 
 L?\"(\\.|[^\\"\n])*\"	{ count();  yylval.gt =create_tree("STRING_LITERAL",0,yylineno);	return(STRING_LITERAL); /*字符串常量*/}
 

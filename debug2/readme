@@ -11,3 +11,9 @@ load_quadruples.py读取四元组翻译成中间码
 ============================
 
 tree rename finish
+
+block rename finish 
+
+compiler.y rename finish
+
+parser.py rename finish
