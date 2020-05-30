@@ -5,16 +5,16 @@ class varNode:
         self.name = ""
         self.type = ""
         self.num = -1
-        self.useAddress = False
-        self.boolString = ""
+        self.use_addr = False
+        self.bool_exp = ""
 
 
 class funcNode:
     def __init__(self):
         # self.isdefined=False
         self.name = ""
-        self.rtype = ""
-        self.paralist = []
+        self.re_type = ""
+        self.para_list = []
 
 
 class arrayNode:
@@ -27,9 +27,9 @@ class arrayNode:
 class Block:
     def __init__(self, name="", type="", num=-1):
         self.func = funcNode()
-        self.isfunc = False
+        self.is_func = False
         self.varMap = {}
         self.arrayMap = {}
-        self.breakLabelname = ""
-        self.canBreak = False
+        self.label_bk = ""
+        self.can_bk = False
 

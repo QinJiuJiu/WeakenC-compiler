@@ -93,13 +93,13 @@ class Praser:
 
         writeNode.name = "print"
 
-        writeNode.rtype = "void"
+        writeNode.re_type = "void"
 
         pnode = varNode()
 
         pnode.type = "int"
 
-        writeNode.paralist.append(pnode)
+        writeNode.para_list.append(pnode)
 
         self.funcPool["print"] = writeNode
 
@@ -107,7 +107,7 @@ class Praser:
 
         readNode.name = "read"
 
-        readNode.rtype = "int"
+        readNode.re_type = "int"
 
         self.funcPool["read"] = readNode
 
@@ -197,7 +197,7 @@ class Praser:
             q.num = self.linenum
             self.linenum += 1
             q.op = "goto"
-            q.arg1 = self.blockStack[num].breakLabelname
+            q.arg1 = self.blockStack[num].label_bk
             self.quadruplesList.append(q)
 
         elif node.child.name == "RETURN":
@@ -234,7 +234,7 @@ class Praser:
                 if funcType != "void":
 
                     self.error(
-                        node.child.sibling.line, "You should return " + self.blockStack[-1].func.rtype)
+                        node.child.sibling.line, "You should return " + self.blockStack[-1].func.re_type)
 
     def praser_expression_statement(self, node):
 
@@ -306,7 +306,7 @@ class Praser:
                     q.num = self.linenum
                     self.linenum += 1
                     q.op = "if_t"
-                    q.arg1 = exp_rnode.boolString
+                    q.arg1 = exp_rnode.bool_exp
                     q.arg2 = label1
                     self.quadruplesList.append(q)
 
@@ -390,7 +390,7 @@ class Praser:
                     q.num = self.linenum
                     self.linenum += 1
                     q.op = "if_t"
-                    q.arg1 = exp_rnode.boolString
+                    q.arg1 = exp_rnode.bool_exp
                     q.arg2 = label1
                     self.quadruplesList.append(q)
 
@@ -479,7 +479,7 @@ class Praser:
 
             newblock = Block()
 
-            newblock.canBreak = True
+            newblock.can_bk = True
 
             self.blockStack.append(newblock)
 
@@ -496,7 +496,7 @@ class Praser:
             label3 = 'label' + str(self.labelNum)
             self.labelNum += 1
 
-            self.blockStack[-1].breakLabelname = label3
+            self.blockStack[-1].label_bk = label3
 
             q = Quadruples()
             q.num = self.linenum
@@ -513,7 +513,7 @@ class Praser:
                 q.num = self.linenum
                 self.linenum += 1
                 q.op = "if_t"
-                q.arg1 = var.boolString
+                q.arg1 = var.bool_exp
                 q.arg2 = label2
                 self.quadruplesList.append(q)
 
@@ -579,7 +579,7 @@ class Praser:
 
             newblock = Block()
 
-            newblock.canBreak = True
+            newblock.can_bk = True
 
             self.blockStack.append(newblock)
 
@@ -593,7 +593,7 @@ class Praser:
             label2 = 'label' + str(self.labelNum)
             self.labelNum += 1
 
-            self.blockStack[-1].breakLabelname = label2
+            self.blockStack[-1].label_bk = label2
 
             q = Quadruples()
             q.num = self.linenum
@@ -612,7 +612,7 @@ class Praser:
                 q.num = self.linenum
                 self.linenum += 1
                 q.op = "if_t"
-                q.arg1 = exp_rnode.boolString
+                q.arg1 = exp_rnode.bool_exp
                 q.arg2 = label1
                 self.quadruplesList.append(q)
 
@@ -659,7 +659,7 @@ class Praser:
 
                     newblock = Block()
 
-                    newblock.canBreak = True
+                    newblock.can_bk = True
 
                     self.blockStack.append(newblock)
 
@@ -678,7 +678,7 @@ class Praser:
                     label3 = 'label' + str(self.labelNum)
                     self.labelNum += 1
 
-                    self.blockStack[-1].breakLabelname = label3
+                    self.blockStack[-1].label_bk = label3
 
                     if exp_state1.child.name == "expression":
 
@@ -701,7 +701,7 @@ class Praser:
                             q.num = self.linenum
                             self.linenum += 1
                             q.op = "if_t"
-                            q.arg1 = exp_rnode.boolString
+                            q.arg1 = exp_rnode.bool_exp
                             q.arg2 = label2
                             self.quadruplesList.append(q)
 
@@ -776,7 +776,7 @@ class Praser:
 
                     newblock = Block()
 
-                    newblock.canBreak = True
+                    newblock.can_bk = True
 
                     self.blockStack.append(newblock)
 
@@ -797,7 +797,7 @@ class Praser:
                     label3 = 'label' + str(self.labelNum)
                     self.labelNum += 1
 
-                    self.blockStack[-1].breakLabelname = label3
+                    self.blockStack[-1].label_bk = label3
 
                     if exp_state1.child.name == "expression":
 
@@ -820,7 +820,7 @@ class Praser:
                             q.num = self.linenum
                             self.linenum += 1
                             q.op = "if_t"
-                            q.arg1 = var.boolString
+                            q.arg1 = var.bool_exp
                             q.arg2 = label2
                             self.quadruplesList.append(q)
 
@@ -897,7 +897,7 @@ class Praser:
 
                     newblock = Block()
 
-                    newblock.canBreak = True
+                    newblock.can_bk = True
 
                     self.blockStack.append(newblock)
 
@@ -916,7 +916,7 @@ class Praser:
                     label3 = 'label' + str(self.labelNum)
                     self.labelNum += 1
 
-                    self.blockStack[-1].breakLabelname = label3
+                    self.blockStack[-1].label_bk = label3
 
                     self.praser_declaration(declaration)
 
@@ -937,7 +937,7 @@ class Praser:
                             q.num = self.linenum
                             self.linenum += 1
                             q.op = "if_t"
-                            q.arg1 = exp_rnode.boolString
+                            q.arg1 = exp_rnode.bool_exp
                             q.arg2 = label2
                             self.quadruplesList.append(q)
 
@@ -1012,7 +1012,7 @@ class Praser:
 
                     newblock = Block()
 
-                    newblock.canBreak = True
+                    newblock.can_bk = True
 
                     self.blockStack.append(newblock)
 
@@ -1033,7 +1033,7 @@ class Praser:
                     label3 = 'label' + str(self.labelNum)
                     self.labelNum += 1
 
-                    self.blockStack[-1].breakLabelname = label3
+                    self.blockStack[-1].label_bk = label3
 
                     self.praser_declaration(declaration)
 
@@ -1054,7 +1054,7 @@ class Praser:
                             q.num = self.linenum
                             self.linenum += 1
                             q.op = "if_t"
-                            q.arg1 = exp_rnode.boolString
+                            q.arg1 = exp_rnode.bool_exp
                             q.arg2 = label2
                             self.quadruplesList.append(q)
 
@@ -1162,11 +1162,11 @@ class Praser:
 
         funBlock = Block()
 
-        funBlock.isfunc = True
+        funBlock.is_func = True
 
         funBlock.func.name = funcName
 
-        funBlock.func.rtype = funcType
+        funBlock.func.re_type = funcType
 
         funBlock.func.isdefinied = True
 
@@ -1190,24 +1190,24 @@ class Praser:
 
         if isdeclared:
 
-            if func.rtype != declarFunc.rtype:
+            if func.re_type != declarFunc.re_type:
 
                 self.error(type_specifier.child.line,
                            "Function return type doesn't equal to the function declared before.")
 
-            print(len(funBlock.func.paralist))
+            print(len(funBlock.func.para_list))
 
-            if len(func.paralist) != len(declarFunc.paralist):
+            if len(func.para_list) != len(declarFunc.para_list):
 
                 self.error(declarator.child.sibling.sibling.line,
                            "The number of function parameters doesn't equal to the function declared before.")
 
-            for i in range(len((funBlock.func.paralist))):
+            for i in range(len((funBlock.func.para_list))):
 
-                if func.paralist[i].type != declarFunc.paralist[i].type:
+                if func.para_list[i].type != declarFunc.para_list[i].type:
 
                     self.error(declarator.child.sibling.sibling.line, "The parameter " +
-                               funBlock.func.paralist[i].name + "'s type doesn't equal to the function declared before.")
+                               funBlock.func.para_list[i].name + "'s type doesn't equal to the function declared before.")
 
         funBlock.func = func
 
@@ -1262,17 +1262,17 @@ class Praser:
 
         if definite:
 
-            self.blockStack[-1].func.paralist.append(newnode)
+            self.blockStack[-1].func.para_list.append(newnode)
 
             newnode.num = self.varNum
 
             self.varNum = self.varNum + 1
 
-            self.blockStack[-1].func.paralist.append(newnode)
+            self.blockStack[-1].func.para_list.append(newnode)
 
-        if newnode not in self.funcPool[funcName].paralist:
+        if newnode not in self.funcPool[funcName].para_list:
 
-            self.funcPool[funcName].paralist.append(newnode)
+            self.funcPool[funcName].para_list.append(newnode)
 
         self.blockStack[-1].varMap[varName] = newnode
 
@@ -1814,7 +1814,7 @@ class Praser:
 
             q = Quadruples()
 
-            newnode.boolString = q.GetNodeName(
+            newnode.bool_exp = q.GetNodeName(
                 node1) + ' || ' + q.GetNodeName(node2)
 
             return newnode
@@ -1858,7 +1858,7 @@ class Praser:
             self.quadruplesList.append(q)
 
             q = Quadruples()
-            newnode.boolString = q.GetNodeName(
+            newnode.bool_exp = q.GetNodeName(
                 node1) + ' && ' + q.GetNodeName(node2)
 
             return newnode
@@ -2040,7 +2040,7 @@ class Praser:
             self.quadruplesList.append(q)
 
             q = Quadruples()
-            newnode.boolString = q.GetNodeName(
+            newnode.bool_exp = q.GetNodeName(
                 node1) + " " + op + " " + q.GetNodeName(node2)
 
             return newnode
@@ -2099,7 +2099,7 @@ class Praser:
                 self.quadruplesList.append(q)
 
                 q = Quadruples()
-                newnode.boolString = q.GetNodeName(
+                newnode.bool_exp = q.GetNodeName(
                     node1) + " " + op + " " + q.GetNodeName(node2)
 
                 return newnode
@@ -2282,7 +2282,7 @@ class Praser:
             q.arg1 = "#1"
             self.quadruplesList.append(q)
 
-            if rnode.useAddress:
+            if rnode.use_addr:
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -2332,7 +2332,7 @@ class Praser:
 
             self.quadruplesList.append(q)
 
-            if rnode.useAddress:
+            if rnode.use_addr:
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -2403,7 +2403,7 @@ class Praser:
 
                 self.blockStack[-1].varMap[tempname] = newnode
 
-                if rnode.useAddress:
+                if rnode.use_addr:
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -2468,7 +2468,7 @@ class Praser:
 
             tempVar.type = anode.type
 
-            tempVar.useAddress = True
+            tempVar.use_addr = True
 
             self.blockStack[-1].varMap[tempName] = tempVar
 
@@ -2590,7 +2590,7 @@ class Praser:
 
             func = self.funcPool[funcName]
 
-            if (func.rtype == "void"):
+            if (func.re_type == "void"):
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -2606,7 +2606,7 @@ class Praser:
                 self.tempNum = self.tempNum + 1
 
                 newNode = self.createTempVar(
-                    tempname, self.funcPool[funcName].rtype)
+                    tempname, self.funcPool[funcName].re_type)
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -2651,7 +2651,7 @@ class Praser:
             q.arg1 = "#1"
             self.quadruplesList.append(q)
 
-            if (rnode.useAddress):
+            if (rnode.use_addr):
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -2725,7 +2725,7 @@ class Praser:
             q.arg2 = tempnameone
             self.quadruplesList.append(q)
 
-            if (rnode.useAddress):
+            if (rnode.use_addr):
 
                 q = Quadruples()
                 q.num = self.linenum
@@ -2794,7 +2794,7 @@ class Praser:
 
             i = i + 1
 
-            if (func.paralist[len(func.paralist) - i].type != rnode.type):
+            if (func.para_list[len(func.para_list) - i].type != rnode.type):
 
                 self.error(argu_exp_list.line,
                            "Wrong type arguments to function " + funcName)
@@ -2810,12 +2810,12 @@ class Praser:
 
         i = i + 1
 
-        if (func.paralist[len(func.paralist) - i].type != rnode.type):
+        if (func.para_list[len(func.para_list) - i].type != rnode.type):
 
             self.error(argu_exp_list.line,
                        "Wrong type arguments to function " + funcName)
 
-        # if (i != len(func.paralist)) :
+        # if (i != len(func.para_list)) :
 
             #self.error(argu_exp_list.line, "The number of arguments doesn't equal to the function parameters number.")
 
@@ -2962,9 +2962,9 @@ class Praser:
 
         for i in reversed(N):
 
-            if (self.blockStack[i].isfunc):
+            if (self.blockStack[i].is_func):
 
-                return self.blockStack[i].func.rtype
+                return self.blockStack[i].func.re_type
 
         return ""
 
@@ -3002,7 +3002,7 @@ class Praser:
 
         for i in reversed(N):
 
-            if (self.blockStack[i].canBreak):
+            if (self.blockStack[i].can_bk):
 
                 return i
 
@@ -3041,4 +3041,5 @@ class Praser:
             for key, value in self.blockStack[i].varMap.items():
 
                 print("		", key, " ", value.type)
+
 
