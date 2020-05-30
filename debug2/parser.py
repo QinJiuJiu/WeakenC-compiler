@@ -3010,7 +3010,7 @@ class Praser:
 
     def error(self, line, errorstring):
 
-        self.print_code()
+        # self.print_code()
 
         print("self.error! line ", line)
 

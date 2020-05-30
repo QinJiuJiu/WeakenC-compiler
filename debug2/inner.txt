@@ -1,0 +1,35 @@
+FUNCTION main :
+temp0 := #10
+temp2 := #4
+temp1 := temp2 * temp0
+temp2 := #1
+var0 := temp2
+LABEL lab :
+temp3 := #5
+temp4 := var0 <= temp3
+IF var0 GOTO temp3
+GOTO goto
+LABEL lab :
+temp7 := #4
+temp6 := var0 * temp7
+temp5 := &var0 + temp6
+temp8 := #1
+temp9 := var0 + temp8
+temp5 := temp9
+GOTO goto
+LABEL lab :
+temp10 := #1
+var0 := temp10
+LABEL lab :
+temp11 := #5
+temp12 := var0 <= temp11
+IF var0 GOTO temp11
+GOTO goto
+LABEL lab :
+temp15 := #4
+temp14 := var0 * temp15
+temp13 := &var0 + temp14
+ARG temp13
+CALL print
+GOTO goto
+LABEL lab :

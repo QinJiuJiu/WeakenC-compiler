@@ -9,7 +9,7 @@ class Quadruples:
 
     def SetArgName(self, num, node):
 
-        if node.useAddress == 1:
+        if node.type == 1:
 
             argTemp = '*' + node.name
 
@@ -32,7 +32,7 @@ class Quadruples:
 
     def GetNodeName(self, node):
 
-        if node.useAddress == 1:
+        if node.type == 1:
 
             result = '*' + node.name
 
