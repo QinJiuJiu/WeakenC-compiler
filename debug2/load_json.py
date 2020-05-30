@@ -4,6 +4,7 @@ import json
 
 from parser import Praser
 
+
 class gramTree:
     def __init__(self):
         self.content = ''
@@ -40,8 +41,6 @@ def traverse(node):
         traverse(node.right)
 
 
-
-
 with open("syntax-tree.json", 'r') as load_f:
     load_dict = json.load(load_f)
     root = gramTree()
@@ -55,8 +54,5 @@ with open("syntax-tree.json", 'r') as load_f:
 
     traverse(root)
 
-    parser=Praser(root)
-
-
-
+    parser = Praser(root)
 

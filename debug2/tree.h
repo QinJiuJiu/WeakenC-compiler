@@ -1,90 +1,46 @@
 
 #ifndef _TREE_H_
 
-
-
-
-
-
-
 #define _TREE_H_
 
+#include <cstdio>
 
+#include <cstdlib>
 
+#include <cstring>
 
-
-
-
-#include<cstdio>
-
-
-
-#include<cstdlib>
-
-
-
-#include<cstring>
-
-
-
-#include<cstdarg>
-
-
+#include <cstdarg>
 
 #include <iostream>
 
-
-
 #include <fstream>
 
-
-
-#include<string>
-
-
+#include <string>
 
 extern char *yytext;
 
+extern int yylineno; //ï¿½á¹©ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 
+using namespace std;
 
-extern int yylineno;//Ìá¹©µ±Ç°ÐÐÊýÐÅÏ¢
-
-
-
-using namespace std; 
-
-
-
-
-struct gramTree {
-
-
+struct gramTree
+{
 
     string content;
 
-
-
     //string type;
-
-
 
     string name;
 
+    int line; //ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-
-    int line;       //ËùÔÚ´úÂëÐÐÊý
-
-	int number; //±àºÅ Éú³ÉÍ¼Æ¬ÓÃµ½ 
+    int number; //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ãµï¿½
 
     struct gramTree *left;
 
-
-
     struct gramTree *right;
 
-
-
-   /* double double_value;
+    /* double double_value;
 
 
 
@@ -93,47 +49,22 @@ struct gramTree {
 
 
     string string_value;*/
-
-
-
 };
-
-
-
-
-
-
 
 extern struct gramTree *root;
 
+struct gramTree *create_tree(string name, int num, ...);
 
-
-
-
-
-
-struct gramTree* create_tree(string name, int num,...);
-
-
-
-void eval(struct gramTree *head,int leavel);
-
-
+void eval(struct gramTree *head, int leavel);
 
 //char* my_substring(char* s, int begin, int end);
 
+void freeGramTree(gramTree *node);
 
+void write_json(gramTree *root, string path);
 
-void freeGramTree(gramTree* node);
+void traverse(gramTree *node, ofstream &outfile);
 
-
-
-void write_json(gramTree* root,string path);
-
-
-
-void traverse(gramTree* node, ofstream &outfile);
-
-void print_tree(gramTree * root, FILE *fp);
+void print_tree(gramTree *root, FILE *fp);
 
 #endif

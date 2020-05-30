@@ -288,14 +288,6 @@ primary_expression:
 
 
 
-        // $$->type = "bool";
-
-
-
-        // $$->int_value = $1->int_value;
-
-
-
     }
 
 
@@ -312,14 +304,6 @@ primary_expression:
 
 
 
-        // $$->type = "bool";
-
-
-
-        // $$->int_value = $1->int_value;
-
-
-
     }
 
 
@@ -328,19 +312,9 @@ primary_expression:
 
 
 
-        //printf("%d",$1->int_value);
-
 
 
         $$ = create_tree("primary_expression",1,$1);
-
-
-
-        // $$->type = "int";
-
-
-
-        // $$->int_value = $1->int_value;
 
 
 
@@ -358,13 +332,6 @@ primary_expression:
 
         $$ = create_tree("primary_expression",1,$1);
 
-
-
-        // $$->type = "double";
-
-
-
-        // $$->double_value = $1->double_value;
 
 
 
@@ -546,9 +513,6 @@ unary_expression:
 
     postfix_expression{
 
-
-
-        //printf("postfix");
 
 
 
@@ -1728,10 +1692,6 @@ declarator:
 
 
 
-        //printf("assignment_expression");
-
-
-
         $$ = create_tree("declarator",4,$1,$2,$3,$4);
 
 
@@ -2829,10 +2789,6 @@ external_declaration:
 
 
 
-        //printf("function_definition");
-
-
-
     }
 
 
@@ -2846,11 +2802,6 @@ external_declaration:
 
 
         //变量声明
-
-
-
-        //printf("declaration");
-
 
 
     }
@@ -2989,14 +2940,6 @@ int main(int argc,char* argv[]) {
 
 
 
-    
-
-
-
-    //freopen("output/output.txt","w", stdout);
-
-
-
     yyparse();
 
 
@@ -3024,15 +2967,6 @@ int main(int argc,char* argv[]) {
     fprintf(fp, "}\n");
 
     fclose(fp);
-
-
-
-    //Praser praser(root);
-
-
-
-
-
 
 
     freeGramTree(root);
