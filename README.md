@@ -7,3 +7,8 @@
 * lff：inner（h,c）+ parser 705-1173
 * zyt：parser（h）+parser 0-704
 
+#### 2 新增
+
+rename完成
+
+report模板上传到report文件夹里
