@@ -1,17 +1,10 @@
 %{
-
 #include "y.tab.hpp"
-
 #include <cstdio>
-
 #include <cstdlib>
-
 #include <cstring>
-
 #include "tree.h"
-
 #include <iostream>
-
 using namespace std;
 
 
@@ -32,8 +25,6 @@ int column = 0;
 
 %option yylineno
 
-
-
 D			[0-9]
 
 L			[a-zA-Z_]
@@ -46,12 +37,8 @@ P           ([Pp][+-]?{D}+)
 
 FS			(f|F|l|L)
 
-IS          ((u|U)|(u|U)?(l|L|ll|LL)|(l|L|ll|LL)(u|U))
-
-
 
 %%
-
 
 
 "/*"			{ comment();/*注释*/}
@@ -113,10 +100,7 @@ L?'(\\.|[^\\'\n])+'		{ count(); return(CONSTANT); }
 
 
 
-
-
 L?\"(\\.|[^\\"\n])*\"	{ count();  yylval.gt =create_tree("STRING_LITERAL",0,yylineno);	return(STRING_LITERAL); /*字符串常量*/}
-
 
 
 ">>="	{ count(); yylval.gt =create_tree("RIGHT_ASSIGN",0,yylineno);	return(RIGHT_ASSIGN); }
@@ -220,16 +204,11 @@ L?\"(\\.|[^\\"\n])*\"	{ count();  yylval.gt =create_tree("STRING_LITERAL",0,yyli
 %%
 
 
-
-
-
 int yywrap() {
 
 	return 1;
 
 }
-
-
 
 
 
@@ -240,9 +219,7 @@ void comment() {
 	char c, prev = 0;
 
 	
-
 	while (cin >> c)      /* (EOF maps to 0) */
-
 	{
 
 		if (c == '/' && prev == '*')
@@ -259,17 +236,11 @@ void comment() {
 
 
 
-
-
-
-
 void count(void)
 
 {
 
 	int i;
-
-
 
 	for (i = 0; yytext[i] != '\0'; i++)
 
@@ -291,35 +262,7 @@ void count(void)
 
 
 
-
-
 int check_type() {
-
-/*
-
-* pseudo code --- this is what it should check
-
-*
-
-*	if (yytext == type_name)
-
-*		return TYPE_NAME;
-
-*
-
-*	return IDENTIFIER;
-
-*/
-
-
-
-/*
-
-*	it actually will only return IDENTIFIER
-
-*/
-
-
 
 	return IDENTIFIER;
 

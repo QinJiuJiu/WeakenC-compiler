@@ -143,17 +143,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 79 "compiler.y" /* yacc.c:1909  */
+#line 35 "compiler.y" /* yacc.c:1909  */
 
 
+    struct SyntaxTree* gt;
 
 
-    struct gramTree* gt;
-
-
-
-
-#line 156 "dist/y.tab.hpp" /* yacc.c:1909  */
+#line 152 "dist/y.tab.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

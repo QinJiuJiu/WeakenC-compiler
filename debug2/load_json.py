@@ -5,54 +5,54 @@ import json
 from parser import Praser
 
 
-class gramTree:
+class SyntaxTree:
     def __init__(self):
         self.content = ''
         self.name = ''
         self.line = -1
-        self.left = self
-        self.right = self
+        self.child = self
+        self.sibling = self
 
 
 def creat_node(dt, total, num):
-    node = gramTree()
+    node = SyntaxTree()
 
     dic = dt[num]
     node.content = dic['content']
     node.name = dic['name']
     node.line = dic['line']
     if len(dic['children']) > 0:
-        node.left = creat_node(dic['children'], len(dic['children']) - 1, 0)
+        node.child = creat_node(dic['children'], len(dic['children']) - 1, 0)
     else:
-        node.left = None
+        node.child = None
     if num < total:
-        node.right = creat_node(dt, total, num + 1)
+        node.sibling = creat_node(dt, total, num + 1)
     elif num == total:
-        node.right = None
+        node.sibling = None
     return node
 
 
-def traverse(node):
+def traverse_tree(node):
     print(node.name)
-    if node.left is not None:
-        traverse(node.left)
+    if node.child is not None:
+        traverse_tree(node.child)
 
-    if node.right is not None:
-        traverse(node.right)
+    if node.sibling is not None:
+        traverse_tree(node.sibling)
 
 
 with open("syntax-tree.json", 'r') as load_f:
     load_dict = json.load(load_f)
-    root = gramTree()
+    root = SyntaxTree()
     root.name = load_dict['content']
     root.name = load_dict['name']
     root.line = load_dict['line']
 
     dt = load_dict['children']
-    root.left = creat_node(dt, len(dt) - 1, 0)
-    root.right = None
+    root.child = creat_node(dt, len(dt) - 1, 0)
+    root.sibling = None
 
-    traverse(root)
+    traverse_tree(root)
 
     parser = Praser(root)
 

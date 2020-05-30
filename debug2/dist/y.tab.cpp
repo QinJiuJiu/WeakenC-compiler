@@ -65,76 +65,38 @@
 #line 1 "compiler.y" /* yacc.c:339  */
 
 
-
-
 #include <cstdlib>
-
-
 
 #include <cstdio>
 
-
-
 #include <string>
-
-
 
 #include<fstream>
 
-
-
 #include "tree.h"
-
-
-
-
 
 using namespace std;
 
-
-
-
-
-
-
 extern char *yytext;
-
-
 
 extern int column;
 
-
-
 extern FILE * yyin;
-
-
 
 extern FILE * yyout;
 
-
-
-gramTree *root;
-
-
+SyntaxTree *root;
 
 extern int yylineno;
 
-
-
 FILE * fp;
 
-
-
 int yylex(void);
-
-
 
 void yyerror(const char*); 
 
 
-
-
-#line 138 "dist/y.tab.cpp" /* yacc.c:339  */
+#line 100 "dist/y.tab.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -266,17 +228,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 79 "compiler.y" /* yacc.c:355  */
+#line 35 "compiler.y" /* yacc.c:355  */
 
 
+    struct SyntaxTree* gt;
 
 
-    struct gramTree* gt;
-
-
-
-
-#line 280 "dist/y.tab.cpp" /* yacc.c:355  */
+#line 238 "dist/y.tab.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -293,7 +251,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 297 "dist/y.tab.cpp" /* yacc.c:358  */
+#line 255 "dist/y.tab.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -595,22 +553,22 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   239,   239,   267,   283,   299,   311,   329,   342,   370,
-     382,   398,   414,   430,   446,   474,   486,   514,   527,   543,
-     559,   587,   599,   611,   623,   651,   663,   675,   687,   715,
-     727,   739,   767,   779,   795,   827,   839,   851,   863,   879,
-     911,   923,   939,   967,   979,  1007,  1019,  1047,  1059,  1087,
-    1099,  1131,  1143,  1175,  1191,  1219,  1231,  1247,  1263,  1279,
-    1295,  1311,  1327,  1343,  1359,  1375,  1407,  1423,  1455,  1467,
-    1495,  1507,  1531,  1543,  1575,  1587,  1599,  1611,  1623,  1655,
-    1671,  1687,  1703,  1719,  1735,  1751,  1767,  1803,  1815,  1839,
-    1851,  1863,  1887,  1899,  1923,  1935,  1947,  1959,  1971,  1983,
-    1995,  2007,  2019,  2031,  2043,  2071,  2083,  2099,  2127,  2139,
-    2151,  2163,  2187,  2211,  2223,  2247,  2259,  2287,  2299,  2311,
-    2323,  2335,  2347,  2375,  2405,  2417,  2441,  2453,  2477,  2489,
-    2513,  2525,  2553,  2565,  2597,  2609,  2621,  2633,  2645,  2657,
-    2684,  2696,  2708,  2720,  2744,  2756,  2780,  2796,  2823,  2835,
-    2859,  2871
+       0,    99,    99,   127,   143,   159,   171,   189,   202,   230,
+     242,   258,   274,   290,   306,   334,   346,   374,   387,   403,
+     419,   447,   459,   471,   483,   511,   523,   535,   547,   575,
+     587,   599,   627,   639,   655,   687,   699,   711,   723,   739,
+     771,   783,   799,   827,   839,   867,   879,   907,   919,   947,
+     959,   991,  1003,  1035,  1051,  1079,  1091,  1107,  1123,  1139,
+    1155,  1171,  1187,  1203,  1219,  1235,  1267,  1283,  1315,  1327,
+    1355,  1367,  1391,  1403,  1435,  1447,  1459,  1471,  1483,  1515,
+    1531,  1547,  1563,  1579,  1595,  1611,  1627,  1663,  1675,  1699,
+    1711,  1723,  1747,  1759,  1783,  1795,  1807,  1819,  1831,  1843,
+    1855,  1867,  1879,  1891,  1903,  1931,  1943,  1959,  1987,  1999,
+    2011,  2023,  2047,  2071,  2083,  2107,  2119,  2147,  2159,  2171,
+    2183,  2195,  2207,  2235,  2265,  2277,  2301,  2313,  2337,  2349,
+    2373,  2385,  2413,  2425,  2457,  2469,  2481,  2493,  2505,  2517,
+    2544,  2556,  2568,  2580,  2604,  2616,  2640,  2656,  2683,  2695,
+    2719,  2731
 };
 #endif
 
@@ -1652,7 +1610,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 239 "compiler.y" /* yacc.c:1646  */
+#line 99 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1662,11 +1620,11 @@ yyreduce:
 
 
     }
-#line 1666 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1624 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 267 "compiler.y" /* yacc.c:1646  */
+#line 127 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1676,11 +1634,11 @@ yyreduce:
 
 
     }
-#line 1680 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1638 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 283 "compiler.y" /* yacc.c:1646  */
+#line 143 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1690,11 +1648,11 @@ yyreduce:
 
 
     }
-#line 1694 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1652 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 299 "compiler.y" /* yacc.c:1646  */
+#line 159 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1704,11 +1662,11 @@ yyreduce:
 
 
     }
-#line 1708 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1666 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 311 "compiler.y" /* yacc.c:1646  */
+#line 171 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1724,11 +1682,11 @@ yyreduce:
 
 
     }
-#line 1728 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1686 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 329 "compiler.y" /* yacc.c:1646  */
+#line 189 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1739,11 +1697,11 @@ yyreduce:
 
 
     }
-#line 1743 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1701 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 342 "compiler.y" /* yacc.c:1646  */
+#line 202 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1753,11 +1711,11 @@ yyreduce:
 
 
     }
-#line 1757 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1715 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 370 "compiler.y" /* yacc.c:1646  */
+#line 230 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1767,11 +1725,11 @@ yyreduce:
 
 
     }
-#line 1771 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1729 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 382 "compiler.y" /* yacc.c:1646  */
+#line 242 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1785,11 +1743,11 @@ yyreduce:
 
 
     }
-#line 1789 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1747 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 398 "compiler.y" /* yacc.c:1646  */
+#line 258 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1803,11 +1761,11 @@ yyreduce:
 
 
     }
-#line 1807 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1765 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 414 "compiler.y" /* yacc.c:1646  */
+#line 274 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1821,11 +1779,11 @@ yyreduce:
 
 
     }
-#line 1825 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1783 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 430 "compiler.y" /* yacc.c:1646  */
+#line 290 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1839,11 +1797,11 @@ yyreduce:
 
 
     }
-#line 1843 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1801 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 446 "compiler.y" /* yacc.c:1646  */
+#line 306 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1857,11 +1815,11 @@ yyreduce:
 
 
     }
-#line 1861 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1819 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 474 "compiler.y" /* yacc.c:1646  */
+#line 334 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1871,11 +1829,11 @@ yyreduce:
 
 
     }
-#line 1875 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1833 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 486 "compiler.y" /* yacc.c:1646  */
+#line 346 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1885,11 +1843,11 @@ yyreduce:
 
 
     }
-#line 1889 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1847 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 514 "compiler.y" /* yacc.c:1646  */
+#line 374 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1900,11 +1858,11 @@ yyreduce:
 
 
     }
-#line 1904 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1862 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 527 "compiler.y" /* yacc.c:1646  */
+#line 387 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1918,11 +1876,11 @@ yyreduce:
 
 
     }
-#line 1922 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1880 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 543 "compiler.y" /* yacc.c:1646  */
+#line 403 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1936,11 +1894,11 @@ yyreduce:
 
 
     }
-#line 1940 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1898 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 559 "compiler.y" /* yacc.c:1646  */
+#line 419 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1950,11 +1908,53 @@ yyreduce:
 
 
     }
-#line 1954 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1912 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 587 "compiler.y" /* yacc.c:1646  */
+#line 447 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("unary_operator",1,(yyvsp[0].gt));
+
+
+
+    }
+#line 1926 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 22:
+#line 459 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("unary_operator",1,(yyvsp[0].gt));
+
+
+
+    }
+#line 1940 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 23:
+#line 471 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("unary_operator",1,(yyvsp[0].gt));
+
+
+
+    }
+#line 1954 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 24:
+#line 483 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -1967,50 +1967,8 @@ yyreduce:
 #line 1968 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 22:
-#line 599 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("unary_operator",1,(yyvsp[0].gt));
-
-
-
-    }
-#line 1982 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 23:
-#line 611 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("unary_operator",1,(yyvsp[0].gt));
-
-
-
-    }
-#line 1996 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 24:
-#line 623 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("unary_operator",1,(yyvsp[0].gt));
-
-
-
-    }
-#line 2010 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
   case 25:
-#line 651 "compiler.y" /* yacc.c:1646  */
+#line 511 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2020,11 +1978,11 @@ yyreduce:
 
 
     }
-#line 2024 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1982 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 663 "compiler.y" /* yacc.c:1646  */
+#line 523 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2034,11 +1992,11 @@ yyreduce:
 
 
     }
-#line 2038 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 1996 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 675 "compiler.y" /* yacc.c:1646  */
+#line 535 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2048,11 +2006,11 @@ yyreduce:
 
 
     }
-#line 2052 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2010 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 687 "compiler.y" /* yacc.c:1646  */
+#line 547 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2062,11 +2020,11 @@ yyreduce:
 
 
     }
-#line 2066 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2024 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 715 "compiler.y" /* yacc.c:1646  */
+#line 575 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2076,11 +2034,11 @@ yyreduce:
 
 
     }
-#line 2080 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2038 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 727 "compiler.y" /* yacc.c:1646  */
+#line 587 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2090,11 +2048,11 @@ yyreduce:
 
 
     }
-#line 2094 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2052 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 739 "compiler.y" /* yacc.c:1646  */
+#line 599 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2104,11 +2062,11 @@ yyreduce:
 
 
     }
-#line 2108 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2066 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 767 "compiler.y" /* yacc.c:1646  */
+#line 627 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2118,11 +2076,11 @@ yyreduce:
 
 
     }
-#line 2122 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2080 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 779 "compiler.y" /* yacc.c:1646  */
+#line 639 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2136,11 +2094,11 @@ yyreduce:
 
 
     }
-#line 2140 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2098 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 795 "compiler.y" /* yacc.c:1646  */
+#line 655 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2154,11 +2112,11 @@ yyreduce:
 
 
     }
-#line 2158 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2116 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 827 "compiler.y" /* yacc.c:1646  */
+#line 687 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2168,11 +2126,11 @@ yyreduce:
 
 
     }
-#line 2172 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2130 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 839 "compiler.y" /* yacc.c:1646  */
+#line 699 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2182,11 +2140,11 @@ yyreduce:
 
 
     }
-#line 2186 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2144 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 851 "compiler.y" /* yacc.c:1646  */
+#line 711 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2196,11 +2154,11 @@ yyreduce:
 
 
     }
-#line 2200 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2158 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 863 "compiler.y" /* yacc.c:1646  */
+#line 723 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2214,11 +2172,11 @@ yyreduce:
 
 
     }
-#line 2218 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2176 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 879 "compiler.y" /* yacc.c:1646  */
+#line 739 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2232,11 +2190,11 @@ yyreduce:
 
 
     }
-#line 2236 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2194 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 911 "compiler.y" /* yacc.c:1646  */
+#line 771 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2246,11 +2204,11 @@ yyreduce:
 
 
     }
-#line 2250 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2208 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 923 "compiler.y" /* yacc.c:1646  */
+#line 783 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2264,11 +2222,11 @@ yyreduce:
 
 
     }
-#line 2268 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2226 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 939 "compiler.y" /* yacc.c:1646  */
+#line 799 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2282,11 +2240,11 @@ yyreduce:
 
 
     }
-#line 2286 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2244 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 967 "compiler.y" /* yacc.c:1646  */
+#line 827 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2296,11 +2254,11 @@ yyreduce:
 
 
     }
-#line 2300 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2258 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 979 "compiler.y" /* yacc.c:1646  */
+#line 839 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2310,11 +2268,11 @@ yyreduce:
 
 
     }
-#line 2314 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2272 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 1007 "compiler.y" /* yacc.c:1646  */
+#line 867 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2324,11 +2282,11 @@ yyreduce:
 
 
     }
-#line 2328 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2286 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 1019 "compiler.y" /* yacc.c:1646  */
+#line 879 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2338,11 +2296,11 @@ yyreduce:
 
 
     }
-#line 2342 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2300 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 1047 "compiler.y" /* yacc.c:1646  */
+#line 907 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2352,11 +2310,11 @@ yyreduce:
 
 
     }
-#line 2356 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2314 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 1059 "compiler.y" /* yacc.c:1646  */
+#line 919 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2366,11 +2324,11 @@ yyreduce:
 
 
     }
-#line 2370 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2328 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 1087 "compiler.y" /* yacc.c:1646  */
+#line 947 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2380,11 +2338,11 @@ yyreduce:
 
 
     }
-#line 2384 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2342 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 1099 "compiler.y" /* yacc.c:1646  */
+#line 959 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2398,11 +2356,11 @@ yyreduce:
 
 
     }
-#line 2402 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2360 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 1131 "compiler.y" /* yacc.c:1646  */
+#line 991 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2412,11 +2370,11 @@ yyreduce:
 
 
     }
-#line 2416 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2374 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 1143 "compiler.y" /* yacc.c:1646  */
+#line 1003 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2430,11 +2388,11 @@ yyreduce:
 
 
     }
-#line 2434 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2392 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 1175 "compiler.y" /* yacc.c:1646  */
+#line 1035 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2448,11 +2406,11 @@ yyreduce:
 
 
     }
-#line 2452 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2410 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 1191 "compiler.y" /* yacc.c:1646  */
+#line 1051 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2462,11 +2420,11 @@ yyreduce:
 
 
     }
-#line 2466 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2424 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 1219 "compiler.y" /* yacc.c:1646  */
+#line 1079 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2476,11 +2434,11 @@ yyreduce:
 
 
     }
-#line 2480 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2438 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 1231 "compiler.y" /* yacc.c:1646  */
+#line 1091 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2494,11 +2452,11 @@ yyreduce:
 
 
     }
-#line 2498 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2456 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 1247 "compiler.y" /* yacc.c:1646  */
+#line 1107 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2512,11 +2470,11 @@ yyreduce:
 
 
     }
-#line 2516 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2474 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 1263 "compiler.y" /* yacc.c:1646  */
+#line 1123 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2530,11 +2488,11 @@ yyreduce:
 
 
     }
-#line 2534 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2492 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 1279 "compiler.y" /* yacc.c:1646  */
+#line 1139 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2548,11 +2506,11 @@ yyreduce:
 
 
     }
-#line 2552 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2510 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 1295 "compiler.y" /* yacc.c:1646  */
+#line 1155 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2566,11 +2524,11 @@ yyreduce:
 
 
     }
-#line 2570 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2528 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 1311 "compiler.y" /* yacc.c:1646  */
+#line 1171 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2584,11 +2542,11 @@ yyreduce:
 
 
     }
-#line 2588 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2546 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 1327 "compiler.y" /* yacc.c:1646  */
+#line 1187 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2602,11 +2560,11 @@ yyreduce:
 
 
     }
-#line 2606 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2564 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 1343 "compiler.y" /* yacc.c:1646  */
+#line 1203 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2620,11 +2578,11 @@ yyreduce:
 
 
     }
-#line 2624 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2582 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 1359 "compiler.y" /* yacc.c:1646  */
+#line 1219 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2638,11 +2596,11 @@ yyreduce:
 
 
     }
-#line 2642 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2600 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 1375 "compiler.y" /* yacc.c:1646  */
+#line 1235 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2656,11 +2614,11 @@ yyreduce:
 
 
     }
-#line 2660 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2618 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 1407 "compiler.y" /* yacc.c:1646  */
+#line 1267 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2674,11 +2632,11 @@ yyreduce:
 
 
     }
-#line 2678 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2636 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 1423 "compiler.y" /* yacc.c:1646  */
+#line 1283 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2692,11 +2650,11 @@ yyreduce:
 
 
     }
-#line 2696 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2654 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 1455 "compiler.y" /* yacc.c:1646  */
+#line 1315 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2706,11 +2664,11 @@ yyreduce:
 
 
     }
-#line 2710 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2668 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 1467 "compiler.y" /* yacc.c:1646  */
+#line 1327 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2720,11 +2678,11 @@ yyreduce:
 
 
     }
-#line 2724 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2682 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 1495 "compiler.y" /* yacc.c:1646  */
+#line 1355 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2734,11 +2692,11 @@ yyreduce:
 
 
     }
-#line 2738 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2696 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 1507 "compiler.y" /* yacc.c:1646  */
+#line 1367 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2748,11 +2706,11 @@ yyreduce:
 
 
     }
-#line 2752 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2710 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 1531 "compiler.y" /* yacc.c:1646  */
+#line 1391 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2762,11 +2720,11 @@ yyreduce:
 
 
     }
-#line 2766 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2724 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 1543 "compiler.y" /* yacc.c:1646  */
+#line 1403 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2776,11 +2734,11 @@ yyreduce:
 
 
     }
-#line 2780 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2738 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 1575 "compiler.y" /* yacc.c:1646  */
+#line 1435 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2790,11 +2748,53 @@ yyreduce:
 
 
     }
-#line 2794 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2752 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 1587 "compiler.y" /* yacc.c:1646  */
+#line 1447 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("type_specifier",1,(yyvsp[0].gt));
+
+
+
+    }
+#line 2766 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 76:
+#line 1459 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("type_specifier",1,(yyvsp[0].gt));
+
+
+
+    }
+#line 2780 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 77:
+#line 1471 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("type_specifier",1,(yyvsp[0].gt));    
+
+
+
+    }
+#line 2794 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 78:
+#line 1483 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2807,50 +2807,8 @@ yyreduce:
 #line 2808 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 76:
-#line 1599 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("type_specifier",1,(yyvsp[0].gt));
-
-
-
-    }
-#line 2822 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 77:
-#line 1611 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("type_specifier",1,(yyvsp[0].gt));    
-
-
-
-    }
-#line 2836 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 78:
-#line 1623 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("type_specifier",1,(yyvsp[0].gt));
-
-
-
-    }
-#line 2850 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
   case 79:
-#line 1655 "compiler.y" /* yacc.c:1646  */
+#line 1515 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2864,11 +2822,11 @@ yyreduce:
 
 
     }
-#line 2868 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2826 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 1671 "compiler.y" /* yacc.c:1646  */
+#line 1531 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2882,11 +2840,11 @@ yyreduce:
 
 
     }
-#line 2886 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2844 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 1687 "compiler.y" /* yacc.c:1646  */
+#line 1547 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2900,11 +2858,11 @@ yyreduce:
 
 
     }
-#line 2904 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2862 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 1703 "compiler.y" /* yacc.c:1646  */
+#line 1563 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2918,11 +2876,11 @@ yyreduce:
 
 
     }
-#line 2922 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2880 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 1719 "compiler.y" /* yacc.c:1646  */
+#line 1579 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2936,11 +2894,11 @@ yyreduce:
 
 
     }
-#line 2940 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2898 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 1735 "compiler.y" /* yacc.c:1646  */
+#line 1595 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2954,11 +2912,11 @@ yyreduce:
 
 
     }
-#line 2958 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2916 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 1751 "compiler.y" /* yacc.c:1646  */
+#line 1611 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2972,11 +2930,11 @@ yyreduce:
 
 
     }
-#line 2976 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2934 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 1767 "compiler.y" /* yacc.c:1646  */
+#line 1627 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -2990,11 +2948,11 @@ yyreduce:
 
 
     }
-#line 2994 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2952 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 1803 "compiler.y" /* yacc.c:1646  */
+#line 1663 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3004,11 +2962,11 @@ yyreduce:
 
 
     }
-#line 3008 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2966 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 1815 "compiler.y" /* yacc.c:1646  */
+#line 1675 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3018,11 +2976,11 @@ yyreduce:
 
 
     }
-#line 3022 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2980 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 1839 "compiler.y" /* yacc.c:1646  */
+#line 1699 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3032,11 +2990,11 @@ yyreduce:
 
 
     }
-#line 3036 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 2994 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 1851 "compiler.y" /* yacc.c:1646  */
+#line 1711 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3046,11 +3004,11 @@ yyreduce:
 
 
     }
-#line 3050 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3008 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 1863 "compiler.y" /* yacc.c:1646  */
+#line 1723 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3060,11 +3018,11 @@ yyreduce:
 
 
     }
-#line 3064 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3022 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 1887 "compiler.y" /* yacc.c:1646  */
+#line 1747 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3074,11 +3032,11 @@ yyreduce:
 
 
     }
-#line 3078 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3036 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 1899 "compiler.y" /* yacc.c:1646  */
+#line 1759 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3088,11 +3046,53 @@ yyreduce:
 
 
     }
-#line 3092 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3050 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 1923 "compiler.y" /* yacc.c:1646  */
+#line 1783 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("abstract_declarator",3,(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+
+
+
+    }
+#line 3064 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 95:
+#line 1795 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("abstract_declarator",2,(yyvsp[-1].gt),(yyvsp[0].gt));
+
+
+
+    }
+#line 3078 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 96:
+#line 1807 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("abstract_declarator",3,(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+
+
+
+    }
+#line 3092 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 97:
+#line 1819 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3105,13 +3105,13 @@ yyreduce:
 #line 3106 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 95:
-#line 1935 "compiler.y" /* yacc.c:1646  */
+  case 98:
+#line 1831 "compiler.y" /* yacc.c:1646  */
     {
 
 
 
-        (yyval.gt) = create_tree("abstract_declarator",2,(yyvsp[-1].gt),(yyvsp[0].gt));
+        (yyval.gt) = create_tree("abstract_declarator",4,(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
 
 
 
@@ -3119,8 +3119,8 @@ yyreduce:
 #line 3120 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 96:
-#line 1947 "compiler.y" /* yacc.c:1646  */
+  case 99:
+#line 1843 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3133,22 +3133,8 @@ yyreduce:
 #line 3134 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 97:
-#line 1959 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("abstract_declarator",3,(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
-
-
-
-    }
-#line 3148 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 98:
-#line 1971 "compiler.y" /* yacc.c:1646  */
+  case 100:
+#line 1855 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3158,11 +3144,25 @@ yyreduce:
 
 
     }
+#line 3148 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 101:
+#line 1867 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("abstract_declarator",2,(yyvsp[-1].gt),(yyvsp[0].gt));
+
+
+
+    }
 #line 3162 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 99:
-#line 1983 "compiler.y" /* yacc.c:1646  */
+  case 102:
+#line 1879 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3175,13 +3175,13 @@ yyreduce:
 #line 3176 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 100:
-#line 1995 "compiler.y" /* yacc.c:1646  */
+  case 103:
+#line 1891 "compiler.y" /* yacc.c:1646  */
     {
 
 
 
-        (yyval.gt) = create_tree("abstract_declarator",4,(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+        (yyval.gt) = create_tree("abstract_declarator",3,(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
 
 
 
@@ -3189,50 +3189,8 @@ yyreduce:
 #line 3190 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 101:
-#line 2007 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("abstract_declarator",2,(yyvsp[-1].gt),(yyvsp[0].gt));
-
-
-
-    }
-#line 3204 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 102:
-#line 2019 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("abstract_declarator",3,(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
-
-
-
-    }
-#line 3218 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 103:
-#line 2031 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("abstract_declarator",3,(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
-
-
-
-    }
-#line 3232 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
   case 104:
-#line 2043 "compiler.y" /* yacc.c:1646  */
+#line 1903 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3242,11 +3200,11 @@ yyreduce:
 
 
     }
-#line 3246 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3204 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 105:
-#line 2071 "compiler.y" /* yacc.c:1646  */
+#line 1931 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3256,11 +3214,11 @@ yyreduce:
 
 
     }
-#line 3260 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3218 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 106:
-#line 2083 "compiler.y" /* yacc.c:1646  */
+#line 1943 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3274,11 +3232,11 @@ yyreduce:
 
 
     }
-#line 3278 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3236 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 107:
-#line 2099 "compiler.y" /* yacc.c:1646  */
+#line 1959 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3292,11 +3250,11 @@ yyreduce:
 
 
     }
-#line 3296 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3254 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 108:
-#line 2127 "compiler.y" /* yacc.c:1646  */
+#line 1987 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3306,11 +3264,11 @@ yyreduce:
 
 
     }
-#line 3310 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3268 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 109:
-#line 2139 "compiler.y" /* yacc.c:1646  */
+#line 1999 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3320,11 +3278,11 @@ yyreduce:
 
 
     }
-#line 3324 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3282 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 110:
-#line 2151 "compiler.y" /* yacc.c:1646  */
+#line 2011 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3334,11 +3292,11 @@ yyreduce:
 
 
     }
-#line 3338 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3296 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 111:
-#line 2163 "compiler.y" /* yacc.c:1646  */
+#line 2023 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3348,11 +3306,11 @@ yyreduce:
 
 
     }
-#line 3352 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3310 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 112:
-#line 2187 "compiler.y" /* yacc.c:1646  */
+#line 2047 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3362,11 +3320,11 @@ yyreduce:
 
 
     }
-#line 3366 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3324 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 113:
-#line 2211 "compiler.y" /* yacc.c:1646  */
+#line 2071 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3376,11 +3334,11 @@ yyreduce:
 
 
     }
-#line 3380 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3338 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 114:
-#line 2223 "compiler.y" /* yacc.c:1646  */
+#line 2083 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3390,11 +3348,11 @@ yyreduce:
 
 
     }
-#line 3394 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3352 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 115:
-#line 2247 "compiler.y" /* yacc.c:1646  */
+#line 2107 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3404,11 +3362,11 @@ yyreduce:
 
 
     }
-#line 3408 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3366 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 116:
-#line 2259 "compiler.y" /* yacc.c:1646  */
+#line 2119 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3418,11 +3376,53 @@ yyreduce:
 
 
     }
-#line 3422 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3380 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 117:
-#line 2287 "compiler.y" /* yacc.c:1646  */
+#line 2147 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("statement",1,(yyvsp[0].gt));
+
+
+
+    }
+#line 3394 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 118:
+#line 2159 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("statement",1,(yyvsp[0].gt));
+
+
+
+    }
+#line 3408 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 119:
+#line 2171 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("statement",1,(yyvsp[0].gt));
+
+
+
+    }
+#line 3422 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 120:
+#line 2183 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3435,8 +3435,8 @@ yyreduce:
 #line 3436 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 118:
-#line 2299 "compiler.y" /* yacc.c:1646  */
+  case 121:
+#line 2195 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3449,8 +3449,8 @@ yyreduce:
 #line 3450 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 119:
-#line 2311 "compiler.y" /* yacc.c:1646  */
+  case 122:
+#line 2207 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3463,50 +3463,8 @@ yyreduce:
 #line 3464 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 120:
-#line 2323 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("statement",1,(yyvsp[0].gt));
-
-
-
-    }
-#line 3478 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 121:
-#line 2335 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("statement",1,(yyvsp[0].gt));
-
-
-
-    }
-#line 3492 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 122:
-#line 2347 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("statement",1,(yyvsp[0].gt));
-
-
-
-    }
-#line 3506 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
   case 123:
-#line 2375 "compiler.y" /* yacc.c:1646  */
+#line 2235 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3516,11 +3474,11 @@ yyreduce:
 
 
     }
-#line 3520 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3478 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 124:
-#line 2405 "compiler.y" /* yacc.c:1646  */
+#line 2265 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3530,11 +3488,11 @@ yyreduce:
 
 
     }
-#line 3534 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3492 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 125:
-#line 2417 "compiler.y" /* yacc.c:1646  */
+#line 2277 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3544,11 +3502,11 @@ yyreduce:
 
 
     }
-#line 3548 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3506 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 126:
-#line 2441 "compiler.y" /* yacc.c:1646  */
+#line 2301 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3558,11 +3516,11 @@ yyreduce:
 
 
     }
-#line 3562 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3520 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 127:
-#line 2453 "compiler.y" /* yacc.c:1646  */
+#line 2313 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3572,11 +3530,11 @@ yyreduce:
 
 
     }
-#line 3576 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3534 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 128:
-#line 2477 "compiler.y" /* yacc.c:1646  */
+#line 2337 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3586,11 +3544,11 @@ yyreduce:
 
 
     }
-#line 3590 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3548 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 129:
-#line 2489 "compiler.y" /* yacc.c:1646  */
+#line 2349 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3600,11 +3558,11 @@ yyreduce:
 
 
     }
-#line 3604 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3562 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 130:
-#line 2513 "compiler.y" /* yacc.c:1646  */
+#line 2373 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3614,11 +3572,11 @@ yyreduce:
 
 
     }
-#line 3618 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3576 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 131:
-#line 2525 "compiler.y" /* yacc.c:1646  */
+#line 2385 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3628,11 +3586,11 @@ yyreduce:
 
 
     }
-#line 3632 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3590 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 132:
-#line 2553 "compiler.y" /* yacc.c:1646  */
+#line 2413 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3642,11 +3600,11 @@ yyreduce:
 
 
     }
-#line 3646 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3604 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 133:
-#line 2565 "compiler.y" /* yacc.c:1646  */
+#line 2425 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3656,11 +3614,11 @@ yyreduce:
 
 
     }
-#line 3660 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3618 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 134:
-#line 2597 "compiler.y" /* yacc.c:1646  */
+#line 2457 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3670,16 +3628,58 @@ yyreduce:
 
 
     }
-#line 3674 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3632 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 2609 "compiler.y" /* yacc.c:1646  */
+#line 2469 "compiler.y" /* yacc.c:1646  */
     {
 
 
 
         (yyval.gt) = create_tree("iteration_statement",7,(yyvsp[-6].gt),(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+
+
+
+    }
+#line 3646 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 136:
+#line 2481 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("iteration_statement",6,(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+
+
+
+    }
+#line 3660 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 137:
+#line 2493 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("iteration_statement",7,(yyvsp[-6].gt),(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+
+
+
+    }
+#line 3674 "dist/y.tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 138:
+#line 2505 "compiler.y" /* yacc.c:1646  */
+    {
+
+
+
+        (yyval.gt) = create_tree("iteration_statement",6,(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
 
 
 
@@ -3687,13 +3687,13 @@ yyreduce:
 #line 3688 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 136:
-#line 2621 "compiler.y" /* yacc.c:1646  */
+  case 139:
+#line 2517 "compiler.y" /* yacc.c:1646  */
     {
 
 
 
-        (yyval.gt) = create_tree("iteration_statement",6,(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+        (yyval.gt) = create_tree("iteration_statement",7,(yyvsp[-6].gt),(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
 
 
 
@@ -3701,13 +3701,13 @@ yyreduce:
 #line 3702 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 137:
-#line 2633 "compiler.y" /* yacc.c:1646  */
+  case 140:
+#line 2544 "compiler.y" /* yacc.c:1646  */
     {
 
 
 
-        (yyval.gt) = create_tree("iteration_statement",7,(yyvsp[-6].gt),(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+        (yyval.gt) = create_tree("jump_statement",2,(yyvsp[-1].gt),(yyvsp[0].gt));
 
 
 
@@ -3715,13 +3715,13 @@ yyreduce:
 #line 3716 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 138:
-#line 2645 "compiler.y" /* yacc.c:1646  */
+  case 141:
+#line 2556 "compiler.y" /* yacc.c:1646  */
     {
 
 
 
-        (yyval.gt) = create_tree("iteration_statement",6,(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+        (yyval.gt) = create_tree("jump_statement",2,(yyvsp[-1].gt),(yyvsp[0].gt));
 
 
 
@@ -3729,13 +3729,13 @@ yyreduce:
 #line 3730 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 139:
-#line 2657 "compiler.y" /* yacc.c:1646  */
+  case 142:
+#line 2568 "compiler.y" /* yacc.c:1646  */
     {
 
 
 
-        (yyval.gt) = create_tree("iteration_statement",7,(yyvsp[-6].gt),(yyvsp[-5].gt),(yyvsp[-4].gt),(yyvsp[-3].gt),(yyvsp[-2].gt),(yyvsp[-1].gt),(yyvsp[0].gt));
+        (yyval.gt) = create_tree("jump_statement",2,(yyvsp[-1].gt),(yyvsp[0].gt));
 
 
 
@@ -3743,50 +3743,8 @@ yyreduce:
 #line 3744 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 140:
-#line 2684 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("jump_statement",2,(yyvsp[-1].gt),(yyvsp[0].gt));
-
-
-
-    }
-#line 3758 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 141:
-#line 2696 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("jump_statement",2,(yyvsp[-1].gt),(yyvsp[0].gt));
-
-
-
-    }
-#line 3772 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 142:
-#line 2708 "compiler.y" /* yacc.c:1646  */
-    {
-
-
-
-        (yyval.gt) = create_tree("jump_statement",2,(yyvsp[-1].gt),(yyvsp[0].gt));
-
-
-
-    }
-#line 3786 "dist/y.tab.cpp" /* yacc.c:1646  */
-    break;
-
   case 143:
-#line 2720 "compiler.y" /* yacc.c:1646  */
+#line 2580 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3796,11 +3754,11 @@ yyreduce:
 
 
     }
-#line 3800 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3758 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 2744 "compiler.y" /* yacc.c:1646  */
+#line 2604 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3810,11 +3768,11 @@ yyreduce:
 
 
     }
-#line 3814 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3772 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 145:
-#line 2756 "compiler.y" /* yacc.c:1646  */
+#line 2616 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3824,11 +3782,11 @@ yyreduce:
 
 
     }
-#line 3828 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3786 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 2780 "compiler.y" /* yacc.c:1646  */
+#line 2640 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3842,11 +3800,11 @@ yyreduce:
 
 
     }
-#line 3846 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3804 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 147:
-#line 2796 "compiler.y" /* yacc.c:1646  */
+#line 2656 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3859,11 +3817,11 @@ yyreduce:
 
 
     }
-#line 3863 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3821 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 148:
-#line 2823 "compiler.y" /* yacc.c:1646  */
+#line 2683 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3873,11 +3831,11 @@ yyreduce:
 
 
     }
-#line 3877 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3835 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 149:
-#line 2835 "compiler.y" /* yacc.c:1646  */
+#line 2695 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3887,11 +3845,11 @@ yyreduce:
 
 
     }
-#line 3891 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3849 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 150:
-#line 2859 "compiler.y" /* yacc.c:1646  */
+#line 2719 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3901,11 +3859,11 @@ yyreduce:
 
 
     }
-#line 3905 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3863 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 151:
-#line 2871 "compiler.y" /* yacc.c:1646  */
+#line 2731 "compiler.y" /* yacc.c:1646  */
     {
 
 
@@ -3915,11 +3873,11 @@ yyreduce:
 
 
     }
-#line 3919 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3877 "dist/y.tab.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 3923 "dist/y.tab.cpp" /* yacc.c:1646  */
+#line 3881 "dist/y.tab.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -4147,7 +4105,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 2891 "compiler.y" /* yacc.c:1906  */
+#line 2751 "compiler.y" /* yacc.c:1906  */
 
 
 
@@ -4208,11 +4166,11 @@ int main(int argc,char* argv[]) {
 
 
 
-    eval(root,0);   //输出语法分析树
+    analysis_tree(root,0);   //输出语法分析树
 
 
 
-    write_json(root,"syntax-tree.json");
+    write_to_file(root,"syntax-tree.json");
 
     
 
@@ -4229,7 +4187,7 @@ int main(int argc,char* argv[]) {
     fclose(fp);
 
 
-    freeGramTree(root);
+    free_tree(root);
 
 
 

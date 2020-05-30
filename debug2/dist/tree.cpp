@@ -17,12 +17,12 @@ int strtoint(string s)
     return n;
 }
 
-gramTree *create_tree(string name, int num, ...)
+SyntaxTree *create_tree(string name, int num, ...)
 {
 
     va_list valist;
 
-    gramTree *head = new gramTree();
+    SyntaxTree *head = new SyntaxTree();
 
     if (!head)
     {
@@ -34,13 +34,13 @@ gramTree *create_tree(string name, int num, ...)
 
     head->number = count_node++;
 
-    head->left = NULL;
+    head->child = NULL;
 
-    head->right = NULL;
+    head->sibling = NULL;
 
     head->content = "";
 
-    gramTree *temp = NULL;
+    SyntaxTree *temp = NULL;
 
     head->name = name;
 
@@ -49,9 +49,9 @@ gramTree *create_tree(string name, int num, ...)
     if (num > 0)
     {
 
-        temp = va_arg(valist, gramTree *);
+        temp = va_arg(valist, SyntaxTree *);
 
-        head->left = temp;
+        head->child = temp;
 
         head->line = temp->line;
 
@@ -76,9 +76,9 @@ gramTree *create_tree(string name, int num, ...)
             for (int i = 1; i < num; ++i)
             {
 
-                temp->right = va_arg(valist, gramTree *);
+                temp->sibling = va_arg(valist, SyntaxTree *);
 
-                temp = temp->right;
+                temp = temp->sibling;
             }
         }
     }
@@ -136,7 +136,7 @@ gramTree *create_tree(string name, int num, ...)
     return head;
 }
 
-void eval(gramTree *head, int leavel)
+void analysis_tree(SyntaxTree *head, int leavel)
 {
 
     if (head != NULL)
@@ -190,39 +190,39 @@ void eval(gramTree *head, int leavel)
             cout << endl;
         }
 
-        eval(head->left, leavel + 1);
+        analysis_tree(head->child, leavel + 1);
 
-        eval(head->right, leavel);
+        analysis_tree(head->sibling, leavel);
     }
 }
 
-void freeGramTree(gramTree *node)
+void free_tree(SyntaxTree *node)
 {
 
     if (node == NULL)
 
         return;
 
-    freeGramTree(node->left);
+    free_tree(node->child);
 
     delete node;
 
-    freeGramTree(node->right);
+    free_tree(node->sibling);
 }
 
-void write_json(gramTree *root, string path)
+void write_to_file(SyntaxTree *root, string path)
 {
 
     ofstream outfile;
 
     outfile.open(path);
 
-    traverse(root, outfile);
+    traverse_tree(root, outfile);
 
     outfile.close();
 }
 
-void traverse(gramTree *node, ofstream &outfile)
+void traverse_tree(SyntaxTree *node, ofstream &outfile)
 {
 
     outfile << "{";
@@ -235,58 +235,58 @@ void traverse(gramTree *node, ofstream &outfile)
 
     outfile << "\"children\":[";
 
-    if (node->left)
+    if (node->child)
     {
 
-        traverse(node->left, outfile);
+        traverse_tree(node->child, outfile);
     }
 
     outfile << "]";
 
     outfile << "}";
 
-    if (node->right)
+    if (node->sibling)
     {
 
         outfile << ",";
 
-        traverse(node->right, outfile);
+        traverse_tree(node->sibling, outfile);
     }
 }
 
 // graphivz
-void print_tree(gramTree *root, FILE *fp)
+void print_tree(SyntaxTree *root, FILE *fp)
 {
     if (root == NULL)
         return;
-    if (root->left == NULL && root->right == NULL)
+    if (root->child == NULL && root->sibling == NULL)
     {
         fprintf(fp, "\tnode%d[shape=plaintext, label=\"%s\", height=.3];\n",
                 root->number, root->name.c_str());
     }
-    if (root->left != NULL)
+    if (root->child != NULL)
     {
         fprintf(fp, "\tedge[color = red];\n");
         fprintf(fp, "\tnode%d[shape=plaintext, label=\"%s\", height=.3];\n\tnode%d->node%d;\n",
-                root->number, root->name.c_str(), root->number, root->left->number);
+                root->number, root->name.c_str(), root->number, root->child->number);
         fprintf(fp, "\tedge[color = black];\n");
     }
 
-    if (root->right != NULL)
+    if (root->sibling != NULL)
     {
         fprintf(fp, "\tnode%d[shape=plaintext, label=\"%s\", height=.3];\n\tnode%d->node%d;\n",
-                root->number, root->name.c_str(), root->number, root->right->number);
+                root->number, root->name.c_str(), root->number, root->sibling->number);
     }
 
-    if (root->left != NULL)
+    if (root->child != NULL)
     {
 
-        print_tree(root->left, fp);
+        print_tree(root->child, fp);
     }
-    if (root->right != NULL)
+    if (root->sibling != NULL)
     {
 
-        print_tree(root->right, fp);
+        print_tree(root->sibling, fp);
     }
 
     return;

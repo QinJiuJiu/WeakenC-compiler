@@ -587,19 +587,12 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "compiler.l"
 #line 2 "compiler.l"
-
 #include "y.tab.hpp"
-
 #include <cstdio>
-
 #include <cstdlib>
-
 #include <cstring>
-
 #include "tree.h"
-
 #include <iostream>
-
 using namespace std;
 
 
@@ -614,8 +607,8 @@ int column = 0;
 
 
 
-#line 618 "dist/compiler.lex.yy.cpp"
-#line 619 "dist/compiler.lex.yy.cpp"
+#line 611 "dist/compiler.lex.yy.cpp"
+#line 612 "dist/compiler.lex.yy.cpp"
 
 #define INITIAL 0
 
@@ -832,12 +825,11 @@ YY_DECL
 		}
 
 	{
-#line 53 "compiler.l"
+#line 41 "compiler.l"
 
 
 
-
-#line 841 "dist/compiler.lex.yy.cpp"
+#line 833 "dist/compiler.lex.yy.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -906,371 +898,371 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 57 "compiler.l"
+#line 44 "compiler.l"
 { comment();/*注释*/}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 59 "compiler.l"
+#line 46 "compiler.l"
 { /* consume //-comment */ }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 63 "compiler.l"
+#line 50 "compiler.l"
 { count(); yylval.gt =create_tree("BOOL",0,yylineno); 		return(BOOL);	}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 65 "compiler.l"
+#line 52 "compiler.l"
 { count(); yylval.gt =create_tree("INT",0,yylineno);  		return(INT); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 67 "compiler.l"
+#line 54 "compiler.l"
 { count(); yylval.gt =create_tree("CHAR",0,yylineno); 		return(CHAR); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 69 "compiler.l"
+#line 56 "compiler.l"
 { count(); yylval.gt =create_tree("DOUBLE",0,yylineno); 	return(DOUBLE); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 71 "compiler.l"
+#line 58 "compiler.l"
 { count(); yylval.gt =create_tree("BREAK",0,yylineno); 		return(BREAK); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 75 "compiler.l"
+#line 62 "compiler.l"
 { count(); yylval.gt =create_tree("CONTINUE",0,yylineno); 	return(CONTINUE); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 77 "compiler.l"
+#line 64 "compiler.l"
 { count(); yylval.gt =create_tree("DO",0,yylineno);			return(DO); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 79 "compiler.l"
+#line 66 "compiler.l"
 { count(); yylval.gt =create_tree("ELSE",0,yylineno);		return(ELSE); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 81 "compiler.l"
+#line 68 "compiler.l"
 { count(); yylval.gt =create_tree("FOR",0,yylineno);		return(FOR); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 84 "compiler.l"
+#line 71 "compiler.l"
 { count(); yylval.gt =create_tree("IF",0,yylineno);			return(IF); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 86 "compiler.l"
+#line 73 "compiler.l"
 { count(); yylval.gt =create_tree("RETURN",0,yylineno);		return(RETURN); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 90 "compiler.l"
+#line 77 "compiler.l"
 { count(); yylval.gt =create_tree("VOID",0,yylineno);		return(VOID); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 92 "compiler.l"
+#line 79 "compiler.l"
 { count(); yylval.gt =create_tree("WHILE",0,yylineno);		return(WHILE); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 94 "compiler.l"
+#line 81 "compiler.l"
 { count(); yylval.gt =create_tree("TRUE",0,yylineno);		return(TRUE); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 96 "compiler.l"
+#line 83 "compiler.l"
 { count(); yylval.gt =create_tree("FALSE",0,yylineno);		return(FALSE); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 100 "compiler.l"
+#line 87 "compiler.l"
 {count(); yylval.gt =create_tree("IDENTIFIER",0,yylineno);	return(check_type());/*IDENTIFIER*/ }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 102 "compiler.l"
+#line 89 "compiler.l"
 { count(); yylval.gt =create_tree("CONSTANT_INT",0,yylineno);	return(CONSTANT_INT); /*10进制*/}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 104 "compiler.l"
+#line 91 "compiler.l"
 { count(); return(CONSTANT); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 106 "compiler.l"
+#line 93 "compiler.l"
 { count(); yylval.gt =create_tree("CONSTANT_DOUBLE",0,yylineno);	return(CONSTANT_DOUBLE); /*浮点数*/}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 108 "compiler.l"
+#line 95 "compiler.l"
 { count(); return(CONSTANT); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 110 "compiler.l"
+#line 97 "compiler.l"
 { count(); return(CONSTANT); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 112 "compiler.l"
+#line 99 "compiler.l"
 { count(); return(CONSTANT); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 118 "compiler.l"
+#line 103 "compiler.l"
 { count();  yylval.gt =create_tree("STRING_LITERAL",0,yylineno);	return(STRING_LITERAL); /*字符串常量*/}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 122 "compiler.l"
+#line 106 "compiler.l"
 { count(); yylval.gt =create_tree("RIGHT_ASSIGN",0,yylineno);	return(RIGHT_ASSIGN); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 124 "compiler.l"
+#line 108 "compiler.l"
 { count(); yylval.gt =create_tree("LEFT_ASSIGN",0,yylineno);	return(LEFT_ASSIGN); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 126 "compiler.l"
+#line 110 "compiler.l"
 { count(); yylval.gt =create_tree("ADD_ASSIGN",0,yylineno);		return(ADD_ASSIGN); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 128 "compiler.l"
+#line 112 "compiler.l"
 { count(); yylval.gt =create_tree("SUB_ASSIGN",0,yylineno);		return(SUB_ASSIGN); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 130 "compiler.l"
+#line 114 "compiler.l"
 { count(); yylval.gt =create_tree("MUL_ASSIGN",0,yylineno);		return(MUL_ASSIGN); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 132 "compiler.l"
+#line 116 "compiler.l"
 { count(); yylval.gt =create_tree("DIV_ASSIGN",0,yylineno);		return(DIV_ASSIGN); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 134 "compiler.l"
+#line 118 "compiler.l"
 { count(); yylval.gt =create_tree("MOD_ASSIGN",0,yylineno);		return(MOD_ASSIGN); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 136 "compiler.l"
+#line 120 "compiler.l"
 { count(); yylval.gt =create_tree("AND_ASSIGN",0,yylineno);		return(AND_ASSIGN); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 138 "compiler.l"
+#line 122 "compiler.l"
 { count(); yylval.gt =create_tree("XOR_ASSIGN",0,yylineno);		return(XOR_ASSIGN); }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 140 "compiler.l"
+#line 124 "compiler.l"
 { count(); yylval.gt =create_tree("OR_ASSIGN",0,yylineno);		return(OR_ASSIGN); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 142 "compiler.l"
+#line 126 "compiler.l"
 { count(); yylval.gt =create_tree("RIGHT_OP",0,yylineno);		return(RIGHT_OP); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 144 "compiler.l"
+#line 128 "compiler.l"
 { count(); yylval.gt =create_tree("LEFT_OP",0,yylineno);		return(LEFT_OP); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 146 "compiler.l"
+#line 130 "compiler.l"
 { count(); yylval.gt =create_tree("INC_OP",0,yylineno);			return(INC_OP); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 148 "compiler.l"
+#line 132 "compiler.l"
 { count(); yylval.gt =create_tree("DEC_OP",0,yylineno);			return(DEC_OP); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 150 "compiler.l"
+#line 134 "compiler.l"
 { count(); yylval.gt =create_tree("PTR_OP",0,yylineno);			return(PTR_OP); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 152 "compiler.l"
+#line 136 "compiler.l"
 { count(); yylval.gt =create_tree("AND_OP",0,yylineno);			return(AND_OP); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 154 "compiler.l"
+#line 138 "compiler.l"
 { count(); yylval.gt =create_tree("OR_OP",0,yylineno);			return(OR_OP); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 156 "compiler.l"
+#line 140 "compiler.l"
 { count(); yylval.gt =create_tree("LE_OP",0,yylineno);			return(LE_OP); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 158 "compiler.l"
+#line 142 "compiler.l"
 { count(); yylval.gt =create_tree("GE_OP",0,yylineno);			return(GE_OP); }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 160 "compiler.l"
+#line 144 "compiler.l"
 { count(); yylval.gt =create_tree("EQ_OP",0,yylineno);			return(EQ_OP); }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 162 "compiler.l"
+#line 146 "compiler.l"
 { count(); yylval.gt =create_tree("NE_OP",0,yylineno);			return(NE_OP); }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 164 "compiler.l"
+#line 148 "compiler.l"
 { count(); yylval.gt =create_tree(";",0,yylineno);	return(';'); }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 166 "compiler.l"
+#line 150 "compiler.l"
 { count(); yylval.gt =create_tree(",",0,yylineno);	return(','); }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 168 "compiler.l"
+#line 152 "compiler.l"
 { count(); yylval.gt =create_tree(":",0,yylineno);	return(':'); }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 170 "compiler.l"
+#line 154 "compiler.l"
 { count(); yylval.gt =create_tree("=",0,yylineno);	return('='); }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 172 "compiler.l"
+#line 156 "compiler.l"
 { count(); yylval.gt =create_tree("[",0,yylineno);	return('['); }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 174 "compiler.l"
+#line 158 "compiler.l"
 { count(); yylval.gt =create_tree("]",0,yylineno);	return(']'); }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 176 "compiler.l"
+#line 160 "compiler.l"
 { count(); yylval.gt =create_tree(".",0,yylineno);	return('.'); }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 178 "compiler.l"
+#line 162 "compiler.l"
 { count(); yylval.gt =create_tree("&",0,yylineno);	return('&'); }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 180 "compiler.l"
+#line 164 "compiler.l"
 { count(); yylval.gt =create_tree("!",0,yylineno);	return('!'); }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 182 "compiler.l"
+#line 166 "compiler.l"
 { count(); yylval.gt =create_tree("~",0,yylineno);	return('~'); }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 184 "compiler.l"
+#line 168 "compiler.l"
 { count(); yylval.gt =create_tree("-",0,yylineno);	return('-'); }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 186 "compiler.l"
+#line 170 "compiler.l"
 { count(); yylval.gt =create_tree("+",0,yylineno);	return('+'); }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 188 "compiler.l"
+#line 172 "compiler.l"
 { count(); yylval.gt =create_tree("*",0,yylineno);	return('*'); }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 190 "compiler.l"
+#line 174 "compiler.l"
 { count(); yylval.gt =create_tree("/",0,yylineno);	return('/'); }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 192 "compiler.l"
+#line 176 "compiler.l"
 { count(); yylval.gt =create_tree("%",0,yylineno);	return('%'); }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 194 "compiler.l"
+#line 178 "compiler.l"
 { count(); yylval.gt =create_tree("<",0,yylineno);	return('<'); }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 196 "compiler.l"
+#line 180 "compiler.l"
 { count(); yylval.gt =create_tree(">",0,yylineno);	return('>'); }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 198 "compiler.l"
+#line 182 "compiler.l"
 { count(); yylval.gt =create_tree("^",0,yylineno);	return('^'); }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 200 "compiler.l"
+#line 184 "compiler.l"
 { count(); yylval.gt =create_tree("|",0,yylineno);	return('|'); }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 202 "compiler.l"
+#line 186 "compiler.l"
 { count(); yylval.gt =create_tree("?",0,yylineno);	return('?'); }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 204 "compiler.l"
+#line 188 "compiler.l"
 { count(); yylval.gt =create_tree("{",0,yylineno);	return('{'); }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 206 "compiler.l"
+#line 190 "compiler.l"
 { count(); yylval.gt =create_tree("}",0,yylineno);	return('}'); }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 208 "compiler.l"
+#line 192 "compiler.l"
 { count(); yylval.gt =create_tree("(",0,yylineno);	return('('); }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 210 "compiler.l"
+#line 194 "compiler.l"
 { count(); yylval.gt =create_tree(")",0,yylineno);	return(')'); }
 	YY_BREAK
 case 71:
 /* rule 71 can match eol */
 YY_RULE_SETUP
-#line 214 "compiler.l"
+#line 198 "compiler.l"
 { count();}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 216 "compiler.l"
+#line 200 "compiler.l"
 { /* Add code to complain about unmatched characters */ }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 220 "compiler.l"
+#line 204 "compiler.l"
 ECHO;
 	YY_BREAK
-#line 1274 "dist/compiler.lex.yy.cpp"
+#line 1266 "dist/compiler.lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2287,10 +2279,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 220 "compiler.l"
-
-
-
+#line 204 "compiler.l"
 
 
 
@@ -2302,8 +2291,6 @@ int yywrap() {
 
 
 
-
-
 void comment() {
 
 	column = 0;
@@ -2311,9 +2298,7 @@ void comment() {
 	char c, prev = 0;
 
 	
-
 	while (cin >> c)      /* (EOF maps to 0) */
-
 	{
 
 		if (c == '/' && prev == '*')
@@ -2330,17 +2315,11 @@ void comment() {
 
 
 
-
-
-
-
 void count(void)
 
 {
 
 	int i;
-
-
 
 	for (i = 0; yytext[i] != '\0'; i++)
 
@@ -2362,35 +2341,7 @@ void count(void)
 
 
 
-
-
 int check_type() {
-
-/*
-
-* pseudo code --- this is what it should check
-
-*
-
-*	if (yytext == type_name)
-
-*		return TYPE_NAME;
-
-*
-
-*	return IDENTIFIER;
-
-*/
-
-
-
-/*
-
-*	it actually will only return IDENTIFIER
-
-*/
-
-
 
 	return IDENTIFIER;
 

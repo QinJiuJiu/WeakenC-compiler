@@ -1,239 +1,99 @@
 %{
 
-
-
 #include <cstdlib>
-
-
 
 #include <cstdio>
 
-
-
 #include <string>
-
-
 
 #include<fstream>
 
-
-
 #include "tree.h"
-
-
-
-
 
 using namespace std;
 
-
-
-
-
-
-
 extern char *yytext;
-
-
 
 extern int column;
 
-
-
 extern FILE * yyin;
-
-
 
 extern FILE * yyout;
 
-
-
-gramTree *root;
-
-
+SyntaxTree *root;
 
 extern int yylineno;
 
-
-
 FILE * fp;
-
-
 
 int yylex(void);
 
-
-
 void yyerror(const char*); 
-
-
 
 %}
 
-
-
-
-
-
-
 %union{
 
-
-
-    struct gramTree* gt;
-
-
+    struct SyntaxTree* gt;
 
 }
 
 
 
-
-
-
-
 %token <gt> IDENTIFIER CONSTANT STRING_LITERAL SIZEOF CONSTANT_INT CONSTANT_DOUBLE
-
-
 
 %token <gt> PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 
-
-
 %token <gt> AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
-
-
 
 %token <gt> SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
 
-
-
 %token <gt> XOR_ASSIGN OR_ASSIGN TYPE_NAME
-
-
-
-
-
 
 
 %token <gt> CHAR INT DOUBLE VOID BOOL 
 
 
-
-
-
-
-
 %token <gt> IF ELSE  WHILE DO FOR  CONTINUE BREAK RETURN
-
-
-
-
-
 
 
 %token <gt> TRUE FALSE
 
 
-
-
-
-
-
 %token <gt> ';' ',' ':' '=' '[' ']' '.' '&' '!' '~' '-' '+' '*' '/' '%' '<' '>' '^' '|' '?' '{' '}' '(' ')'
-
-
-
-
-
-
 
 %type <gt> primary_expression postfix_expression argument_expression_list unary_expression unary_operator
 
-
-
 %type <gt> multiplicative_expression additive_expression shift_expression relational_expression equality_expression
-
-
 
 %type <gt> and_expression exclusive_or_expression inclusive_or_expression logical_and_expression logical_or_expression
 
-
-
 %type <gt> assignment_expression assignment_operator expression
-
-
-
-
-
-
 
 %type <gt> declaration init_declarator_list init_declarator type_specifier
 
-
-
-
-
-
-
 %type <gt> declarator 
-
-
-
-
-
-
 
 %type <gt> parameter_list parameter_declaration identifier_list
 
-
-
 %type <gt> abstract_declarator initializer initializer_list designation designator_list
-
-
 
 %type <gt> designator statement labeled_statement compound_statement block_item_list block_item expression_statement
 
-
-
 %type <gt> selection_statement iteration_statement jump_statement translation_unit external_declaration function_definition
-
-
 
 %type <gt> declaration_list
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 %nonassoc LOWER_THAN_ELSE
 
-
-
 %nonassoc ELSE
-
-
 
 %%
 
 
-
-
-
-
-
 Program: 
-
 
 
     translation_unit {
@@ -2948,11 +2808,11 @@ int main(int argc,char* argv[]) {
 
 
 
-    eval(root,0);   //输出语法分析树
+    analysis_tree(root,0);   //输出语法分析树
 
 
 
-    write_json(root,"syntax-tree.json");
+    write_to_file(root,"syntax-tree.json");
 
     
 
@@ -2969,7 +2829,7 @@ int main(int argc,char* argv[]) {
     fclose(fp);
 
 
-    freeGramTree(root);
+    free_tree(root);
 
 
 

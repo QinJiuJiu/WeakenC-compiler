@@ -23,12 +23,10 @@ extern int yylineno; //�ṩ��ǰ������Ϣ
 
 using namespace std;
 
-struct gramTree
+struct SyntaxTree
 {
 
     string content;
-
-    //string type;
 
     string name;
 
@@ -36,35 +34,25 @@ struct gramTree
 
     int number; //��� ����ͼƬ�õ�
 
-    struct gramTree *left;
+    struct SyntaxTree *child;
 
-    struct gramTree *right;
+    struct SyntaxTree *sibling;
 
-    /* double double_value;
-
-
-
-    int int_value;
-
-
-
-    string string_value;*/
 };
 
-extern struct gramTree *root;
+extern struct SyntaxTree *root;
 
-struct gramTree *create_tree(string name, int num, ...);
+struct SyntaxTree *create_tree(string name, int num, ...);
 
-void eval(struct gramTree *head, int leavel);
+void free_tree(SyntaxTree *node);
 
-//char* my_substring(char* s, int begin, int end);
+void print_tree(SyntaxTree *root, FILE *fp);
 
-void freeGramTree(gramTree *node);
+void analysis_tree(struct SyntaxTree *head, int leavel);
 
-void write_json(gramTree *root, string path);
+void traverse_tree(SyntaxTree *node, ofstream &outfile);
 
-void traverse(gramTree *node, ofstream &outfile);
+void write_to_file(SyntaxTree *root, string path);
 
-void print_tree(gramTree *root, FILE *fp);
 
 #endif
