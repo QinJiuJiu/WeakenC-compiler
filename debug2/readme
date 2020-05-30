@@ -1,0 +1,10 @@
+parser产生四元组 quadruples.txt
+load_quadruples.py读取四元组翻译成中间码
+
+./build.sh
+./test.sh
+./load_json.py
+./load_quadruples.py
+
+此外 修改部分compile.l .y删除部分功能
+名称还未替换
