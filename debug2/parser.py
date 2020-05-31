@@ -284,7 +284,7 @@ class Parser:
 
             if num < 0:
 
-                self.error(node.child.line, "This scope doesn't support break.")
+                self.error(node.child.line, "break statement not within a loop.")
 
             q = Quadruples()
             q.num = self.linenum
@@ -314,7 +314,7 @@ class Parser:
                 if rnode.type != funcType:
 
                     self.error(
-                        node.child.sibling.line, "return type doesn't equal to function return type.")
+                        node.child.sibling.line, "return type error! doesn't match function return type.")
 
             elif node.child.sibling.name == ";":
 
@@ -327,7 +327,7 @@ class Parser:
                 if funcType != "void":
 
                     self.error(
-                        node.child.sibling.line, "You should return " + self.blockStack[-1].func.re_type)
+                        node.child.sibling.line, "The correct return:" + self.blockStack[-1].func.re_type)
 
     def Parser_expression_statement(self, node):
 
@@ -1243,7 +1243,7 @@ class Parser:
             if self.funcPool[funcName].isdefinied:
 
                 self.error(declarator.child.child.line, "Function " +
-                           funcName + " is duplicated definition.")
+                           funcName + " has been defined before.")
 
             else:
 
@@ -1286,21 +1286,21 @@ class Parser:
             if func.re_type != declarFunc.re_type:
 
                 self.error(type_definition.child.line,
-                           "Function return type doesn't equal to the function declared before.")
+                           "return type error! doesn't match function declared return type.")
 
             print(len(funBlock.func.para_list))
 
             if len(func.para_list) != len(declarFunc.para_list):
 
                 self.error(declarator.child.sibling.sibling.line,
-                           "The number of function parameters doesn't equal to the function declared before.")
+                           "number of function parameters error! doesn't match the function declared parameters number.")
 
             for i in range(len((funBlock.func.para_list))):
 
                 if func.para_list[i].type != declarFunc.para_list[i].type:
 
-                    self.error(declarator.child.sibling.sibling.line, "The parameter " +
-                               funBlock.func.para_list[i].name + "'s type doesn't equal to the function declared before.")
+                    self.error(declarator.child.sibling.sibling.line, "function parameters type error! The parameter" +
+                               funBlock.func.para_list[i].name + "'s type doesn't match the function declared parameter type.")
 
         funBlock.func = func
 
@@ -1343,7 +1343,7 @@ class Parser:
 
         if typeName == "void":
 
-            self.error(type_definition.line, "Void can't definite parameter.")
+            self.error(type_definition.line, "parameter type cannot be void.")
 
         varName = declarator.child.content
 
@@ -1394,7 +1394,7 @@ class Parser:
 
         if vartype == "void":
 
-            self.error(begin.child.line, "void type can't assign to variable")
+            self.error(begin.child.line, "variable cannot be void")
 
         decl = begin.sibling
 
@@ -1633,7 +1633,7 @@ class Parser:
                 if initializer == None:
 
                     self.error(declarator.line,
-                               'Lack the initializer for variable')
+                               'variable has not been initialized')
 
                 else:
 
@@ -1702,7 +1702,7 @@ class Parser:
                     if node1.type != node2.type:
 
                         self.error(assign_exp.child.line,
-                                   "Different type for two variables.")
+                                   "Different type for two variables to multiple.")
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1718,7 +1718,7 @@ class Parser:
                     if node1.type != node2.type:
 
                         self.error(assign_exp.child.line,
-                                   "Different type for two variables.")
+                                   "Different type for two variables to divide.")
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1750,7 +1750,7 @@ class Parser:
                     if node1.type != node2.type:
 
                         self.error(assign_exp.child.line,
-                                   "Different type for two variables.")
+                                   "Different type for two variables to add.")
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1766,7 +1766,7 @@ class Parser:
                     if node1.type != node2.type:
 
                         self.error(assign_exp.child.line,
-                                   "Different type for two variables.")
+                                   "Different type for two variables to sub.")
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1814,7 +1814,7 @@ class Parser:
                     if node1.type != 'int' or node2.type != 'int':
 
                         self.error(assign_exp.child.line,
-                                   "The two variables must be int.")
+                                   "The two variables must be int to do and operation.")
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1830,7 +1830,7 @@ class Parser:
                     if node1.type != 'int' or node2.type != 'int':
 
                         self.error(assign_exp.child.line,
-                                   "The two variables must be int.")
+                                   "The two variables must be int to do xor operation.")
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1846,7 +1846,7 @@ class Parser:
                     if node1.type != 'int' or node2.type != 'int':
 
                         self.error(assign_exp.child.line,
-                                   "The two variables must be int.")
+                                   "The two variables must be int to do or operation.")
 
                     q = Quadruples()
                     q.num = self.linenum
@@ -1885,7 +1885,7 @@ class Parser:
             if node1.type != 'bool' or node2 != 'bool':
 
                 self.error(logical_or_exp.child.sibling.line,
-                           'Logical Or operation should only used to bool.')
+                           'Variable type is not bool.')
 
             tempname = 'temp' + str(self.tempNum)
 
@@ -1930,7 +1930,7 @@ class Parser:
             if node1.type != 'bool' or node2 != 'bool':
 
                 self.error(logical_and_exp.child.sibling.line,
-                           'Logical And operation should only used to bool.')
+                           'Variable type is not bool.')
 
             tempname = 'temp' + str(self.tempNum)
 
@@ -1974,7 +1974,7 @@ class Parser:
             if node1.type != 'int' or node2 != 'int':
 
                 self.error(inclusive_or_exp.child.sibling.line,
-                           'Inclusive Or operation should only used to bool.')
+                           'Variable type is not bool.')
 
             tempname = 'temp' + str(self.tempNum)
 
@@ -2014,7 +2014,7 @@ class Parser:
             if node1.type != 'int' or node2 != 'int':
 
                 self.error(exclusive_or_exp.child.sibling.line,
-                           'Exclusive Or operation should only used to bool.')
+                           'Variable type is not bool.')
 
             tempname = 'temp' + str(self.tempNum)
 
@@ -2053,7 +2053,7 @@ class Parser:
             if node1.type != 'int' or node2 != 'int':
 
                 self.error(and_exp.child.sibling.line,
-                           'And operation should only used to bool.')
+                           'Variable type is not bool.')
 
             tempname = 'temp' + str(self.tempNum)
 
@@ -2230,7 +2230,7 @@ class Parser:
             if node1.type != 'int' or node2.type != 'int':
 
                 self.error(shift_exp.child.sibling.line,
-                           'Shift operation should only used to int.')
+                           'Variable type is not int.')
 
             tempname = 'temp' + str(self.tempNum)
 
@@ -2357,7 +2357,7 @@ class Parser:
             if rnode.type != "int":
 
                 self.error(unary_exp.child.sibling.line,
-                           "++ operation can only use for int type.")
+                           "Variable type is not int.")
 
             tempname = "temp" + str(self.tempNum)
 
@@ -2406,7 +2406,7 @@ class Parser:
             if rnode.type != "int":
 
                 self.error(unary_exp.child.sibling.line,
-                           "-- operation can only use for int type.")
+                           "Variable type is not int.")
 
             tempname = "temp" + str(self.tempNum)
 
@@ -2460,7 +2460,7 @@ class Parser:
                 if (rnode.type != "int" and rnode.type != "double"):
 
                     self.error(unary_exp.child.child.line,
-                               "operator '+' can only used to int or double")
+                               "Variable type is not int or double")
 
                 return rnode
 
@@ -2469,7 +2469,7 @@ class Parser:
                 if rnode.type != "int" and rnode.type != "double":
 
                     self.error(unary_exp.child.child.line,
-                               "operator '-' can only used to int or double")
+                               "Variable type is not int or double")
 
                 tempzeroname = "temp" + str(self.tempNum)
 
@@ -2718,7 +2718,7 @@ class Parser:
             if (rnode.type != "int"):
 
                 self.error(post_exp.child.sibling.line,
-                           "++ operation can only use for int type.")
+                           "Variable type is not int.")
 
             tempname = "temp" + str(self.tempNum)
 
@@ -2792,7 +2792,7 @@ class Parser:
             if (rnode.type != "int"):
 
                 self.error(post_exp.child.sibling.line,
-                           "-- operation can only use for int type.")
+                           "Variable type is not int.")
 
             tempname = "temp" + str(self.tempNum)
 
@@ -2907,10 +2907,6 @@ class Parser:
 
             self.error(argu_exp_list.line,
                        "Wrong type arguments to function " + funcName)
-
-        # if (i != len(func.para_list)) :
-
-            #self.error(argu_exp_list.line, "The number of arguments doesn't equal to the function parameters number.")
 
     def Parser_basic_expression(self, primary_exp):
 
@@ -3103,9 +3099,9 @@ class Parser:
 
     def error(self, line, errorstring):
 
-        # self.print_code()
+        print("===================EXECUTE ERROR!===================")
 
-        print("self.error! line ", line)
+        print("ERROR! detected in line " + str(line))
 
         print(errorstring)
 
