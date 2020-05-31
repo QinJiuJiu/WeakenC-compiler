@@ -57,13 +57,13 @@ while True:
 
     elif str[2] == "goto":
 
-        fout.write("GOTO "+str[2])
+        fout.write("GOTO "+str[4])
 
         fout.write('\n')
 
     elif str[2] == "lab":
 
-        fout.write("LABEL "+str[2]+" :")
+        fout.write("LABEL "+str[4]+" :")
 
         fout.write('\n')
 
