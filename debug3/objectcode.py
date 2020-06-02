@@ -146,7 +146,7 @@ def write_to_txt(Obj):
     f=open('result.asm','w')
     template='''
 .data
-_prompt: .asciiz "Enter an integer:"
+_prompt: .asciiz "Please input a number:"
 _ret: .asciiz "\\n"
 .globl main
 .text

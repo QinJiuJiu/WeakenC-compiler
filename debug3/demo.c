@@ -1,25 +1,19 @@
-int fact(int n){    
-	int temp;    
-	if(n==1)        
-		return n;    
-	else{        
-		temp=(n*fact(n-1));        
-		return temp;    
-	} 
+int factorial(int i) {
+    if (i <= 1) {
+        return 1;
+    }
+    else{
+        return i * factorial(i - 1);
+    }
 }
-int main() {    
-	int result,times;    
-	times=read();    
-	int i;    
-	for(i=1;i<=times;i++){        
-		int m;        
-		m = read();        
-		if( m > 1) {            
-			result=fact(m);        
-		}        
-		else            
-			result = 1;        
-		print(result);    
-	} 
+int main() {
+    int i, times, result;
+    times=read();
+    for(i = 1; i < times + 1; i++)
+    {
+        int temp;
+		temp = read();
+		result = factorial(temp);
+        print(result);
+	}
 }
-
